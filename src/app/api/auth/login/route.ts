@@ -40,9 +40,10 @@ export async function POST(request: NextRequest) {
       { status: 200 }
     );
 
+    // Consider relaxing SameSite and adding Secure conditionally
     response.headers.set(
       "Set-Cookie",
-      `token=${token}; HttpOnly; Path=/; Max-Age=3600; SameSite=Strict`
+      `token=${token}; HttpOnly; Path=/; Max-Age=3600; SameSite=Lax;`
     );
 
     return response;

@@ -19,7 +19,7 @@ const QuizSchema = new mongoose.Schema({
       ],
     },
   ],
-  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 });
 
 const Quiz = models.Quiz || model("Quiz", QuizSchema);

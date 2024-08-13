@@ -2,6 +2,7 @@ import { NextResponse, NextRequest } from "next/server";
 import connectDB from "@/dbConnect/dbConnect";
 import Quiz from "@/models/Quiz.Model";
 import { getDataFromToken } from "@/utils/GetDataFromToken";
+import jwt from "jsonwebtoken";
 
 connectDB();
 
@@ -24,6 +25,7 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+
 
 export async function POST(req: NextRequest) {
   try {
