@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
+import { type } from "os";
 
 export default function Signup() {
   const router = useRouter();
@@ -44,17 +45,22 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-blue-700">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-500 to-pink-500 px-4 sm:px-0 relative">
       <Toaster position="top-center" reverseOrder={false} />
-      <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-8">
-        <h1 className="text-2xl font-semibold text-center text-blue-800 mb-6">
-          Signup
+
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-20"></div>
+
+      <div className="relative z-10 w-full max-w-lg bg-white bg-opacity-90 backdrop-blur-lg rounded-xl shadow-xl p-6 sm:p-8">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-center text-indigo-800 mb-6 sm:mb-8">
+          Join <span className="text-pink-500">QuizMaster</span> 🧠
         </h1>
-        <form onSubmit={handleSubmit} className="space-y-4">
+
+        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           <div>
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-semibold text-gray-800"
             >
               Name
             </label>
@@ -64,15 +70,16 @@ export default function Signup() {
               type="text"
               value={user.name}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-blue-900"
+              className="mt-2 block w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-indigo-400 focus:border-indigo-400 text-gray-900"
               placeholder="Your Name"
               required
             />
           </div>
+
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-semibold text-gray-800"
             >
               Email Address
             </label>
@@ -82,15 +89,16 @@ export default function Signup() {
               type="email"
               value={user.email}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-blue-900"
+              className="mt-2 block w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-indigo-400 focus:border-indigo-400 text-gray-900"
               placeholder="you@example.com"
               required
             />
           </div>
+
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-semibold text-gray-800"
             >
               Password
             </label>
@@ -100,24 +108,38 @@ export default function Signup() {
               type="password"
               value={user.password}
               onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-blue-900"
+              className="mt-2 block w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-indigo-400 focus:border-indigo-400 text-gray-900"
               placeholder="••••••••"
               required
             />
           </div>
+
           <div>
             <button
               type="submit"
               disabled={loading}
-              className="w-full px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-400 disabled:cursor-not-allowed"
+              className="w-full px-4 py-2 sm:px-5 sm:py-3 font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500 transition ease-in-out duration-150 disabled:bg-indigo-300 disabled:cursor-not-allowed"
             >
               {loading ? "Creating..." : "Sign Up"}
             </button>
           </div>
         </form>
+
         {error && (
-          <p className="mt-4 text-sm text-red-500 text-center">{error}</p>
+          <p className="mt-4 text-center text-sm text-red-500">{error}</p>
         )}
+
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-700">
+            Already have an account?{" "}
+            <a
+              href="/login"
+              className="font-medium text-indigo-600 hover:text-indigo-800"
+            >
+              Log In
+            </a>
+          </p>
+        </div>
       </div>
     </div>
   );
