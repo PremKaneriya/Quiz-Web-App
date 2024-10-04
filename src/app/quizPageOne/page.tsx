@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 
@@ -225,20 +226,52 @@ const QuizManager: React.FC = () => {
           Quiz Manager
         </h1>
 
-        {/* GitHub Button */}
-        <button
-          onClick={() =>
-            window.open("https://github.com/PremKaneriya", "_blank")
-          }
-          className="flex items-center space-x-2 bg-gray-900 text-white px-3 py-2 sm:py-1 rounded-lg hover:bg-gray-800 focus:outline-none"
-        >
-          <img
-            src="https://img.icons8.com/m_sharp/200/FFFFFF/github.png"
-            alt="GitHub"
-            className="w-5 h-5"
-          />
-          <span className="text-sm font-medium">GitHub</span>
-        </button>
+        <div className="flex space-x-4">
+          {/* GitHub Button */}
+          <button
+            onClick={() =>
+              window.open("https://github.com/PremKaneriya", "_blank")
+            }
+            className="flex items-center space-x-2 bg-gray-900 text-white px-3 py-2 sm:py-1 rounded-lg"
+          >
+            <img
+              src="https://img.icons8.com/m_sharp/200/FFFFFF/github.png"
+              alt="GitHub"
+              className="w-5 h-5"
+            />
+            <span className="text-sm font-medium">GitHub</span>
+          </button>
+          {/* linkedin Button */}
+          <button
+            onClick={() =>
+              window.open("https://www.linkedin.com/in/premkaneriya/", "_blank")
+            }
+            className="flex items-center space-x-2 bg-blue-700 text-white px-3 py-2 sm:py-1 rounded-lg"
+          >
+            <img
+              src="https://img.icons8.com/m_sharp/200/FFFFFF/linkedin.png"
+              alt="LinkedIn"
+              className="w-5 h-5"
+            />
+            <span className="text-sm font-medium">LinkedIn</span>
+          </button>
+          <button
+            onClick={() =>
+              window.open(
+                "https://prem-dev.notion.site/Prem-Kaneriya-34ff5d61e45b4077840589318bf12b11?pvs=74",
+                "_blank"
+              )
+            }
+            className="flex items-center space-x-2 bg-blue-700 text-white px-3 py-2 sm:py-1 rounded-lg"
+          >
+            <img
+              src="https://img.icons8.com/m_sharp/200/FFFFFF/external-link.png"
+              alt="External Link"
+              className="w-5 h-5"
+            />
+            <span className="text-sm font-medium">Resume</span>
+          </button>
+        </div>
       </div>
 
       {/* Create Quiz Form */}
@@ -392,7 +425,7 @@ const QuizManager: React.FC = () => {
 
                     <button
                       onClick={() => checkAnswer(quiz._id, qIndex)}
-                      className="mt-2 bg-blue-500 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                      className="mt-2 bg-blue-600 text-white px-3 py-1 rounded-md text-sm font-medium"
                     >
                       Check Answer
                     </button>
@@ -422,6 +455,14 @@ const QuizManager: React.FC = () => {
           ))}
         </div>
       </div>
+      <footer className="bg-white text-blue-700 py-14 px-6">
+        <div className="container mx-auto text-center">
+          <p className="text-lg">
+            &copy; {new Date().getFullYear()} Prem Kaneriya. All rights
+            reserved.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };
