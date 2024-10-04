@@ -1,5 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
+import { div, button, img, span } from "framer-motion/client";
+import { useRouter } from "next/navigation";
+
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 
 interface Option {
@@ -35,6 +38,8 @@ const processMongoData = (data: any) => {
 };
 
 const QuizManager: React.FC = () => {
+  const router = useRouter();
+
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [newQuiz, setNewQuiz] = useState<Quiz>({
     _id: "",
@@ -49,6 +54,7 @@ const QuizManager: React.FC = () => {
   }>({});
   const [feedback, setFeedback] = useState<{ [key: string]: string }>({});
   const [popupVisible, setPopupVisible] = useState(false); // State for the popup
+  const [user, setUser] = useState<{ name: string } | null>(null);
 
   useEffect(() => {
     fetchQuizzes();
@@ -68,6 +74,32 @@ const QuizManager: React.FC = () => {
       return () => clearTimeout(timer); // Clean up timer on unmount
     }
   }, [popupVisible]);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch("/api/quizzes/profile", {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error || "Failed to load user data");
+        }
+
+        setUser({ name: data.name });
+      } catch (error: any) {
+        setError(error.message);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const handleProfileClick = () => {
+    router.push("/profile");
+  };
 
   const fetchQuizzes = async () => {
     setLoading(true);
@@ -242,54 +274,19 @@ const QuizManager: React.FC = () => {
           Quiz Manager
         </h1>
 
-        <div className="flex space-x-4">
-          {/* GitHub Button */}
-          <button
-            onClick={() =>
-              window.open("https://github.com/PremKaneriya", "_blank")
-            }
-            className="flex items-center space-x-2 bg-gray-900 text-white px-3 py-2 sm:py-1 rounded-lg"
-          >
-            <img
-              src="https://img.icons8.com/m_sharp/200/FFFFFF/github.png"
-              alt="GitHub"
-              className="w-5 h-5"
-            />
-            <span className="text-sm font-medium">GitHub</span>
-          </button>
-          {/* linkedin Button */}
-          <button
-            onClick={() =>
-              window.open("https://www.linkedin.com/in/premkaneriya/", "_blank")
-            }
-            className="flex items-center space-x-2 bg-blue-700 text-white px-3 py-2 sm:py-1 rounded-lg"
-          >
-            <img
-              src="https://img.icons8.com/m_sharp/200/FFFFFF/linkedin.png"
-              alt="LinkedIn"
-              className="w-5 h-5"
-            />
-            <span className="text-sm font-medium">LinkedIn</span>
-          </button>
-          <button
-            onClick={() =>
-              window.open(
-                "https://prem-dev.notion.site/Prem-Kaneriya-34ff5d61e45b4077840589318bf12b11?pvs=74",
-                "_blank"
-              )
-            }
-            className="flex items-center space-x-2 bg-blue-500 text-white px-3 py-2 sm:py-1 rounded-lg"
-          >
-            <img
-              src="https://img.icons8.com/m_sharp/200/FFFFFF/external-link.png"
-              alt="External Link"
-              className="w-5 h-5"
-            />
-            <span className="text-sm font-medium">Resume</span>
-          </button>
-        </div>
+        {/* Profile Section */}
+        <button
+          onClick={handleProfileClick}
+          className="flex items-center space-x-2 bg-blue-600 text-white px-3 py-2 sm:py-1 rounded-lg"
+        >
+          <img
+            src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
+            alt="Profile"
+            className="w-5 h-5"
+          />
+          <span>{user?.name || "Profile"}</span>
+        </button>
       </div>
-
       {/* Create Quiz Form */}
       <div className="bg-gray-50 shadow-sm rounded-lg p-4 sm:p-6">
         <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6">
@@ -492,8 +489,73 @@ const QuizManager: React.FC = () => {
           </div>
         )}
       </div>
+
       <footer className="bg-gray-100 text-blue-700 py-10 px-6 border-t border-gray-600 rounded-lg">
-        <div className="container mx-auto text-center">
+      <div className="flex space-x-4 mt-6 justify-center">
+  {/* GitHub Button */}
+  <button
+    onClick={() =>
+      window.open("https://github.com/PremKaneriya", "_blank")
+    }
+    className="flex items-center space-x-2 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1"
+  >
+    <img
+      src="https://img.icons8.com/m_sharp/200/FFFFFF/github.png"
+      alt="GitHub"
+      className="w-5 h-5"
+    />
+    <span className="text-sm font-medium">GitHub</span>
+  </button>
+
+  {/* LinkedIn Button */}
+  <button
+    onClick={() =>
+      window.open("https://www.linkedin.com/in/premkaneriya/", "_blank")
+    }
+    className="flex items-center space-x-2 bg-blue-700 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1"
+  >
+    <img
+      src="https://img.icons8.com/m_sharp/200/FFFFFF/linkedin.png"
+      alt="LinkedIn"
+      className="w-5 h-5"
+    />
+    <span className="text-sm font-medium">LinkedIn</span>
+  </button>
+
+  {/* Resume Button */}
+  <button
+    onClick={() =>
+      window.open(
+        "https://prem-dev.notion.site/Prem-Kaneriya-34ff5d61e45b4077840589318bf12b11?pvs=74",
+        "_blank"
+      )
+    }
+    className="flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1"
+  >
+    <img
+      src="https://img.icons8.com/m_sharp/200/FFFFFF/external-link.png"
+      alt="External Link"
+      className="w-5 h-5"
+    />
+    <span className="text-sm font-medium">Resume</span>
+  </button>
+
+  {/* Instagram Button */}
+  <button
+    onClick={() =>
+      window.open("https://www.instagram.com/prem_kaneriya/", "_blank")
+    }
+    className="flex items-center space-x-2 bg-pink-600 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1"
+  >
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png"
+      alt="Instagram"
+      className="w-5 h-5"
+    />
+    <span className="text-sm font-medium">Instagram</span>
+  </button>
+</div>
+        <div className="container mt-10  mx-auto text-center">
           <p className="text-lg">
             &copy; {new Date().getFullYear()} Prem Kaneriya. All rights
             reserved.
