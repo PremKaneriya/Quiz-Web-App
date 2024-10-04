@@ -7,8 +7,7 @@ export default function Home() {
     <>
       <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 sm:px-0 relative">
         {/* Background Illustration */}
-        <div className="absolute inset-0 opacity-30">
-        </div>
+        <div className="absolute inset-0 opacity-30"></div>
 
         {/* Overlay Content */}
         <div className="relative z-10 flex flex-col items-center space-y-4 sm:space-y-8">
@@ -17,8 +16,11 @@ export default function Home() {
             Welcome to <span className="text-yellow-300">QuizMaster</span> 🧠
           </h1>
           <p className="text-base sm:text-lg max-w-sm sm:max-w-md text-center">
-            Challenge yourself with fun quizzes, improve your knowledge, and
-            track your progress. Let's get started!
+            Welcome to Quiz Master, the exciting multiplayer game designed to
+            challenge your knowledge, spark your curiosity, and enhance your
+            brainpower! In this open-source trivia game, players can not only
+            answer questions but also ask them, fostering a dynamic environment
+            for learning and friendly competition.
           </p>
 
           {/* Navigation Buttons */}

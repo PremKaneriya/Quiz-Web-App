@@ -48,10 +48,26 @@ const QuizManager: React.FC = () => {
     [key: string]: number;
   }>({});
   const [feedback, setFeedback] = useState<{ [key: string]: string }>({});
+  const [popupVisible, setPopupVisible] = useState(false); // State for the popup
 
   useEffect(() => {
     fetchQuizzes();
+    showPopup(); // Show the popup when the component mounts
   }, []);
+
+  const showPopup = () => {
+    setPopupVisible(true); // Show the popup when the component mounts
+  };
+
+  useEffect(() => {
+    if (popupVisible) {
+      const timer = setTimeout(() => {
+        setPopupVisible(false);
+      }, 5000); // Hide popup after 5 seconds
+
+      return () => clearTimeout(timer); // Clean up timer on unmount
+    }
+  }, [popupVisible]);
 
   const fetchQuizzes = async () => {
     setLoading(true);
@@ -262,7 +278,7 @@ const QuizManager: React.FC = () => {
                 "_blank"
               )
             }
-            className="flex items-center space-x-2 bg-blue-700 text-white px-3 py-2 sm:py-1 rounded-lg"
+            className="flex items-center space-x-2 bg-blue-500 text-white px-3 py-2 sm:py-1 rounded-lg"
           >
             <img
               src="https://img.icons8.com/m_sharp/200/FFFFFF/external-link.png"
@@ -454,8 +470,29 @@ const QuizManager: React.FC = () => {
             </div>
           ))}
         </div>
+
+        {/* Popup Component */}
+        {popupVisible && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="bg-white p-6 sm:p-8 md:p-10 lg:p-12 rounded shadow-lg max-w-sm sm:max-w-md lg:max-w-lg">
+              <h2 className="text-lg sm:text-xl md:text-2xl font-bold">
+                Brain-Building Game!
+              </h2>
+              <p className="text-sm sm:text-base md:text-lg">
+                This game is designed to improve your cognitive skills. Play
+                with your friends and challenge your brain!
+              </p>
+              <button
+                className="mt-4 bg-blue-500 text-white px-4 py-2 rounded text-sm sm:text-base"
+                onClick={() => setPopupVisible(false)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
       </div>
-      <footer className="bg-white text-blue-700 py-14 px-6">
+      <footer className="bg-gray-100 text-blue-700 py-10 px-6 border-t border-gray-600 rounded-lg">
         <div className="container mx-auto text-center">
           <p className="text-lg">
             &copy; {new Date().getFullYear()} Prem Kaneriya. All rights
