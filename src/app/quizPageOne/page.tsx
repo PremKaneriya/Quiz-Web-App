@@ -220,9 +220,26 @@ const QuizManager: React.FC = () => {
 
   return (
     <div className="container mx-auto p-4 sm:p-6 space-y-8">
-      <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900">
-        Quiz Manager
-      </h1>
+      <div className="flex flex-col sm:flex-row justify-between items-center w-full mb-4">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4 sm:mb-0">
+          Quiz Manager
+        </h1>
+
+        {/* GitHub Button */}
+        <button
+          onClick={() =>
+            window.open("https://github.com/PremKaneriya", "_blank")
+          }
+          className="flex items-center space-x-2 bg-gray-900 text-white px-3 py-2 sm:py-1 rounded-lg hover:bg-gray-800 focus:outline-none"
+        >
+          <img
+            src="https://img.icons8.com/m_sharp/200/FFFFFF/github.png"
+            alt="GitHub"
+            className="w-5 h-5"
+          />
+          <span className="text-sm font-medium">GitHub</span>
+        </button>
+      </div>
 
       {/* Create Quiz Form */}
       <div className="bg-gray-50 shadow-sm rounded-lg p-4 sm:p-6">
