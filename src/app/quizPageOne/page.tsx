@@ -300,18 +300,20 @@ const QuizManager: React.FC = () => {
             Quiz Manager
           </h1>
 
-          <div className="flex gap-5">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-5">
             {/* Profile Section */}
             <button
               onClick={handleProfileClick}
-              className="flex items-center space-x-2 bg-blue-600 text-white px-3 py-2 sm:py-1 rounded-lg"
+              className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
             >
               <img
                 src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
                 alt="Profile"
                 className="w-5 h-5"
               />
-              <span>{user?.name || "Profile"}</span>
+              <span className="text-sm sm:text-base">
+                {user?.name || "Profile"}
+              </span>
             </button>
 
             {/* Dark Mode Toggle Button */}
