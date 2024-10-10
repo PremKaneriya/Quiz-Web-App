@@ -51,8 +51,7 @@ export default function Login() {
       <Toaster position="top-center" reverseOrder={false} />
 
       {/* Hero Image */}
-      <div className="absolute inset-0 opacity-20">
-      </div>
+      <div className="absolute inset-0 opacity-20"></div>
 
       <div className="relative z-10 w-full max-w-lg bg-white bg-opacity-90 backdrop-blur-lg rounded-xl shadow-xl p-6 sm:p-8">
         <h1 className="text-2xl sm:text-3xl font-bold text-center text-purple-800 mb-6 sm:mb-8">
@@ -123,12 +122,18 @@ export default function Login() {
           <p className="text-sm text-gray-700">
             Don't have an account?{" "}
             <a
-              href="#"
+              href="/signup"
               className="font-medium text-indigo-600 hover:text-indigo-800"
             >
               Sign up
             </a>
           </p>
+          <a
+            href="/"
+            className=" text-indigo-600 text-xs px-3 py-1 bg-gray-100 rounded hover:text-indigo-800 transition duration-300"
+          >
+            Back to Home
+          </a>
         </div>
       </div>
     </div>

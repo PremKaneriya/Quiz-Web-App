@@ -15,13 +15,6 @@ export default function Home() {
           <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-center">
             Welcome to <span className="text-yellow-300">QuizMaster</span> 🧠
           </h1>
-          <p className="text-base sm:text-lg max-w-sm sm:max-w-md text-center">
-            Welcome to Quiz Master, the exciting multiplayer game designed to
-            challenge your knowledge, spark your curiosity, and enhance your
-            brainpower! In this open-source trivia game, players can not only
-            answer questions but also ask them, fostering a dynamic environment
-            for learning and friendly competition.
-          </p>
 
           {/* Navigation Buttons */}
           <nav className="flex flex-col sm:flex-row gap-4 sm:gap-6 mt-6 sm:mt-10">

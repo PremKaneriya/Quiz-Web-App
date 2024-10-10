@@ -1,7 +1,23 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { div, button, img, span } from "framer-motion/client";
+import {
+  div,
+  button,
+  img,
+  span,
+  form,
+  h1,
+  h2,
+  h3,
+  input,
+  label,
+  map,
+  p,
+  text,
+  title,
+} from "framer-motion/client";
 import { useRouter } from "next/navigation";
+import { type } from "os";
 
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 
@@ -39,6 +55,11 @@ const processMongoData = (data: any) => {
 
 const QuizManager: React.FC = () => {
   const router = useRouter();
+  const [darkMode, setDarkMode] = useState(false);
+
+  const toggleDarkMode = () => {
+    setDarkMode((prevMode) => !prevMode);
+  };
 
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [newQuiz, setNewQuiz] = useState<Quiz>({
@@ -269,35 +290,77 @@ const QuizManager: React.FC = () => {
 
   return (
     <>
-      <div className="container mx-auto p-4 sm:p-6 space-y-8">
+      <div
+        className={`container mx-auto p-4 sm:p-6 space-y-8 ${
+          darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
+        }`}
+      >
         <div className="flex flex-col sm:flex-row justify-between items-center w-full mb-4">
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-4 sm:mb-0">
+          <h1 className="text-2xl sm:text-3xl font-extrabold mb-4 sm:mb-0">
             Quiz Manager
           </h1>
 
-          {/* Profile Section */}
-          <button
-            onClick={handleProfileClick}
-            className="flex items-center space-x-2 bg-blue-600 text-white px-3 py-2 sm:py-1 rounded-lg"
-          >
-            <img
-              src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
-              alt="Profile"
-              className="w-5 h-5"
-            />
-            <span>{user?.name || "Profile"}</span>
-          </button>
+          <div className="flex gap-5">
+            {/* Profile Section */}
+            <button
+              onClick={handleProfileClick}
+              className="flex items-center space-x-2 bg-blue-600 text-white px-3 py-2 sm:py-1 rounded-lg"
+            >
+              <img
+                src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
+                alt="Profile"
+                className="w-5 h-5"
+              />
+              <span>{user?.name || "Profile"}</span>
+            </button>
+
+            {/* Dark Mode Toggle Button */}
+            <button
+              onClick={toggleDarkMode}
+              className={`
+        flex items-center justify-center
+        w-28 h-9 rounded-full text-sm
+        transform transition-all duration-300 ease-in-out
+        ${
+          darkMode
+            ? "bg-indigo-700 hover:bg-indigo-600 text-white"
+            : "bg-yellow-400 hover:bg-yellow-300 text-gray-800"
+        }
+        hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-1
+        ${darkMode ? "focus:ring-indigo-500" : "focus:ring-yellow-500"}
+        shadow-md
+      `}
+            >
+              <div className="flex items-center space-x-1">
+                <span className="text-base">{darkMode ? "🌙" : "☀️"}</span>
+                <span className="font-medium">
+                  {darkMode ? "Light" : "Dark"}
+                </span>
+              </div>
+            </button>
+          </div>
         </div>
+
         {/* Create Quiz Form */}
-        <div className="bg-gray-50 shadow-sm rounded-lg p-4 sm:p-6">
-          <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 sm:mb-6">
+        <div
+          className={`shadow-sm rounded-lg p-4 sm:p-6 ${
+            darkMode ? "bg-gray-800" : "bg-gray-50"
+          }`}
+        >
+          <h2
+            className={`text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 ${
+              darkMode ? "text-white" : "text-gray-800"
+            }`}
+          >
             Create New Quiz
           </h2>
           <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
             <div>
               <label
                 htmlFor="title"
-                className="block text-sm sm:text-lg font-medium text-gray-700"
+                className={`block text-sm sm:text-lg font-medium ${
+                  darkMode ? "text-gray-300" : "text-gray-700"
+                }`}
               >
                 Quiz Title
               </label>
@@ -307,7 +370,11 @@ const QuizManager: React.FC = () => {
                 name="title"
                 value={newQuiz.title}
                 onChange={handleInputChange}
-                className="mt-1 block w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                className={`mt-1 block w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${
+                  darkMode
+                    ? "bg-gray-700 text-gray-300 border-gray-600"
+                    : "border-gray-300 text-gray-900"
+                }`}
                 placeholder="Enter quiz title"
                 required
               />
@@ -321,7 +388,11 @@ const QuizManager: React.FC = () => {
                   onChange={(e) =>
                     handleQuestionChange(qIndex, "questionText", e.target.value)
                   }
-                  className="block w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                  className={`block w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${
+                    darkMode
+                      ? "bg-gray-700 text-gray-300 border-gray-600"
+                      : "border-gray-300 text-gray-900"
+                  }`}
                   placeholder="Question text"
                   required
                 />
@@ -341,11 +412,19 @@ const QuizManager: React.FC = () => {
                           e.target.value
                         )
                       }
-                      className="flex-grow px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                      className={`flex-grow px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${
+                        darkMode
+                          ? "bg-gray-700 text-gray-300 border-gray-600"
+                          : "border-gray-300 text-gray-900"
+                      }`}
                       placeholder="Option text"
                       required
                     />
-                    <label className="flex items-center space-x-2 text-sm text-gray-700">
+                    <label
+                      className={`flex items-center space-x-2 ${
+                        darkMode ? "text-gray-300" : "text-gray-700"
+                      }`}
+                    >
                       <input
                         type="checkbox"
                         checked={option.isCorrect}
@@ -389,7 +468,11 @@ const QuizManager: React.FC = () => {
 
         {/* Display Quizzes */}
         <div className="max-w-full sm:max-w-3xl mx-auto px-2 sm:px-0">
-          <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-2 sm:mb-4">
+          <h2
+            className={`text-xl sm:text-2xl font-semibold mb-2 sm:mb-4 ${
+              darkMode ? "text-white" : "text-gray-800"
+            }`}
+          >
             Play Quizzes
             <span className="text-gray-500 ml-2">↓</span>
           </h2>
@@ -399,20 +482,42 @@ const QuizManager: React.FC = () => {
             {quizzes.map((quiz) => (
               <div
                 key={quiz._id}
-                className="bg-white rounded-lg p-4 shadow-sm border border-gray-200"
+                className={`rounded-lg p-4 shadow-sm border ${
+                  darkMode
+                    ? "bg-gray-800 border-gray-700"
+                    : "bg-white border-gray-200"
+                }`}
               >
-                <h3 className="text-lg sm:text-xl font-semibold text-gray-800 mb-1 sm:mb-2">
+                <h3
+                  className={`text-lg sm:text-xl font-semibold mb-1 sm:mb-2 ${
+                    darkMode ? "text-white" : "text-gray-800"
+                  }`}
+                >
                   {quiz.title}
                 </h3>
-                <p className="text-sm sm:text-base text-gray-600 mb-2">
+                <p
+                  className={`text-sm sm:text-base mb-2 ${
+                    darkMode ? "text-gray-400" : "text-gray-600"
+                  }`}
+                >
                   {quiz.questions.length} Questions
                 </p>
 
                 <div className="space-y-4">
                   {quiz.questions.map((question, qIndex) => (
                     <div key={qIndex} className="space-y-2">
-                      <div className="bg-gray-50 rounded-lg p-3 border border-gray-300">
-                        <p className="text-sm sm:text-base font-medium text-gray-700">
+                      <div
+                        className={`rounded-lg p-3 border ${
+                          darkMode
+                            ? "bg-gray-700 border-gray-600"
+                            : "bg-gray-50 border-gray-300"
+                        }`}
+                      >
+                        <p
+                          className={`text-sm sm:text-base font-medium ${
+                            darkMode ? "text-gray-300" : "text-gray-700"
+                          }`}
+                        >
                           Q{qIndex + 1}: {question.questionText}
                         </p>
                       </div>
@@ -435,7 +540,11 @@ const QuizManager: React.FC = () => {
                               }
                               className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
                             />
-                            <span className="text-sm sm:text-base text-gray-700">
+                            <span
+                              className={`text-sm sm:text-base ${
+                                darkMode ? "text-gray-300" : "text-gray-700"
+                              }`}
+                            >
                               {option.text}
                             </span>
                           </label>
@@ -444,7 +553,9 @@ const QuizManager: React.FC = () => {
 
                       <button
                         onClick={() => checkAnswer(quiz._id, qIndex)}
-                        className="mt-2 bg-blue-600 text-white px-3 py-1 rounded-md text-sm font-medium"
+                        className={`mt-2 bg-blue-600 text-white px-3 py-1 rounded-md text-sm font-medium ${
+                          darkMode ? "hover:bg-blue-700" : "hover:bg-blue-700"
+                        }`}
                       >
                         Check Answer
                       </button>
@@ -464,9 +575,13 @@ const QuizManager: React.FC = () => {
                   ))}
                 </div>
 
-                <p className="mt-4 text-sm sm:text-base text-gray-500">
+                <p
+                  className={`mt-4 text-sm sm:text-base ${
+                    darkMode ? "text-gray-400" : "text-gray-500"
+                  }`}
+                >
                   Created by:{" "}
-                  <span className="font-medium text-gray-700">
+                  <span className="font-medium">
                     {quiz.createdBy || "Unknown"}
                   </span>
                 </p>
@@ -496,79 +611,6 @@ const QuizManager: React.FC = () => {
           )}
         </div>
       </div>
-      <footer className="bg-gray-100 text-blue-700 py-10 px-6 border-t border-gray-600 rounded-lg">
-        <div className="flex flex-wrap justify-center space-x-0 space-y-4 sm:space-y-0 sm:space-x-4 mt-6">
-          {/* GitHub Button */}
-          <button
-            onClick={() =>
-              window.open("https://github.com/PremKaneriya", "_blank")
-            }
-            className="flex items-center space-x-2 bg-gray-900 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1 w-full sm:w-auto"
-          >
-            <img
-              src="https://img.icons8.com/m_sharp/200/FFFFFF/github.png"
-              alt="GitHub"
-              className="w-5 h-5"
-            />
-            <span className="text-sm font-medium">GitHub</span>
-          </button>
-
-          {/* LinkedIn Button */}
-          <button
-            onClick={() =>
-              window.open("https://www.linkedin.com/in/premkaneriya/", "_blank")
-            }
-            className="flex items-center space-x-2 bg-blue-700 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1 w-full sm:w-auto"
-          >
-            <img
-              src="https://img.icons8.com/m_sharp/200/FFFFFF/linkedin.png"
-              alt="LinkedIn"
-              className="w-5 h-5"
-            />
-            <span className="text-sm font-medium">LinkedIn</span>
-          </button>
-
-          {/* Resume Button */}
-          <button
-            onClick={() =>
-              window.open(
-                "https://prem-dev.notion.site/Prem-Kaneriya-34ff5d61e45b4077840589318bf12b11?pvs=74",
-                "_blank"
-              )
-            }
-            className="flex items-center space-x-2 bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1 w-full sm:w-auto"
-          >
-            <img
-              src="https://img.icons8.com/m_sharp/200/FFFFFF/external-link.png"
-              alt="External Link"
-              className="w-5 h-5"
-            />
-            <span className="text-sm font-medium">Resume</span>
-          </button>
-
-          {/* Instagram Button */}
-          <button
-            onClick={() =>
-              window.open("https://www.instagram.com/prem_kaneriya/", "_blank")
-            }
-            className="flex items-center space-x-2 bg-pink-600 text-white px-4 py-2 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:-translate-y-1 w-full sm:w-auto"
-          >
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Instagram_logo_2016.svg/2048px-Instagram_logo_2016.svg.png"
-              alt="Instagram"
-              className="w-5 h-5"
-            />
-            <span className="text-sm font-medium">Instagram</span>
-          </button>
-        </div>
-
-        <div className="container mt-10  mx-auto text-center">
-          <p className="text-lg">
-            &copy; {new Date().getFullYear()} Prem Kaneriya. All rights
-            reserved.
-          </p>
-        </div>
-      </footer>
     </>
   );
 };

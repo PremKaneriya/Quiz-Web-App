@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { type } from "os";
+import { a } from "framer-motion/client";
 
 export default function Signup() {
   const router = useRouter();
@@ -139,6 +140,12 @@ export default function Signup() {
               Log In
             </a>
           </p>
+          <a
+            href="/"
+            className=" text-indigo-600 text-xs px-3 py-1 bg-gray-100 rounded hover:text-indigo-800 transition duration-300"
+          >
+            Back to Home
+          </a>
         </div>
       </div>
     </div>
