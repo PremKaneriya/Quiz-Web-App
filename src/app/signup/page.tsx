@@ -4,7 +4,18 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { type } from "os";
-import { a } from "framer-motion/client";
+import {
+  a,
+  button,
+  div,
+  form,
+  h1,
+  input,
+  label,
+  p,
+  span,
+} from "framer-motion/client";
+import Link from "next/link";
 
 export default function Signup() {
   const router = useRouter();
@@ -46,22 +57,17 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-indigo-500 to-pink-500 px-4 sm:px-0 relative">
+    <div className="flex items-center justify-center min-h-screen bg-gray-900 px-4 sm:px-0">
       <Toaster position="top-center" reverseOrder={false} />
-
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-20"></div>
-
-      <div className="relative z-10 w-full max-w-lg bg-white bg-opacity-90 backdrop-blur-lg rounded-xl shadow-xl p-6 sm:p-8">
-        <h1 className="text-2xl sm:text-3xl font-extrabold text-center text-indigo-800 mb-6 sm:mb-8">
-          Join <span className="text-pink-500">QuizMaster</span> 🧠
+      <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-xl p-6 sm:p-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-100 mb-6 sm:mb-8">
+          Join <span className="text-yellow-400">QuizMaster</span>
         </h1>
-
         <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           <div>
             <label
               htmlFor="name"
-              className="block text-sm font-semibold text-gray-800"
+              className="block text-sm font-medium text-gray-300"
             >
               Name
             </label>
@@ -71,16 +77,15 @@ export default function Signup() {
               type="text"
               value={user.name}
               onChange={handleInputChange}
-              className="mt-2 block w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-indigo-400 focus:border-indigo-400 text-gray-900"
+              className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
               placeholder="Your Name"
               required
             />
           </div>
-
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-semibold text-gray-800"
+              className="block text-sm font-medium text-gray-300"
             >
               Email Address
             </label>
@@ -90,16 +95,15 @@ export default function Signup() {
               type="email"
               value={user.email}
               onChange={handleInputChange}
-              className="mt-2 block w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-indigo-400 focus:border-indigo-400 text-gray-900"
+              className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
               placeholder="you@example.com"
               required
             />
           </div>
-
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-semibold text-gray-800"
+              className="block text-sm font-medium text-gray-300"
             >
               Password
             </label>
@@ -109,43 +113,38 @@ export default function Signup() {
               type="password"
               value={user.password}
               onChange={handleInputChange}
-              className="mt-2 block w-full px-3 py-2 sm:px-4 sm:py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-4 focus:ring-indigo-400 focus:border-indigo-400 text-gray-900"
+              className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
               placeholder="••••••••"
               required
             />
           </div>
-
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="w-full px-4 py-2 sm:px-5 sm:py-3 font-medium text-white bg-indigo-600 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-4 focus:ring-indigo-500 transition ease-in-out duration-150 disabled:bg-indigo-300 disabled:cursor-not-allowed"
-            >
-              {loading ? "Creating..." : "Sign Up"}
-            </button>
-          </div>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full px-4 py-2 font-medium text-gray-900 bg-yellow-400 rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition duration-150 ease-in-out disabled:bg-gray-500 disabled:text-gray-300 disabled:cursor-not-allowed"
+          >
+            {loading ? "Creating..." : "Sign Up"}
+          </button>
         </form>
-
         {error && (
-          <p className="mt-4 text-center text-sm text-red-500">{error}</p>
+          <p className="mt-4 text-center text-sm text-red-400">{error}</p>
         )}
-
         <div className="mt-6 text-center">
-          <p className="text-sm text-gray-700">
+          <p className="text-sm text-gray-400">
             Already have an account?{" "}
-            <a
+            <Link
               href="/login"
-              className="font-medium text-indigo-600 hover:text-indigo-800"
+              className="font-medium text-yellow-400 hover:text-yellow-300"
             >
               Log In
-            </a>
+            </Link>
           </p>
-          <a
+          <Link
             href="/"
-            className=" text-indigo-600 text-xs px-3 py-1 bg-gray-100 rounded hover:text-indigo-800 transition duration-300"
+            className="inline-block mt-2 text-yellow-400 text-xs px-3 py-1 bg-gray-700 rounded hover:bg-gray-600 transition duration-300"
           >
             Back to Home
-          </a>
+          </Link>
         </div>
       </div>
     </div>

@@ -321,20 +321,19 @@ const QuizManager: React.FC = () => {
               onClick={toggleDarkMode}
               className={`
         flex items-center justify-center
-        w-28 h-9 rounded-full text-sm
+        w-28 h-9 rounded-lg text-sm
         transform transition-all duration-300 ease-in-out
         ${
           darkMode
             ? "bg-indigo-700 hover:bg-indigo-600 text-white"
-            : "bg-yellow-400 hover:bg-yellow-300 text-gray-800"
+            : "bg-blue-300 hover:bg-blue-300 text-gray-800" 
         }
-        hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-1
         ${darkMode ? "focus:ring-indigo-500" : "focus:ring-yellow-500"}
         shadow-md
       `}
             >
               <div className="flex items-center space-x-1">
-                <span className="text-base">{darkMode ? "🌙" : "☀️"}</span>
+                <span className="text-base">{darkMode ? "☀️" : "🌚"}</span>
                 <span className="font-medium">
                   {darkMode ? "Light" : "Dark"}
                 </span>
