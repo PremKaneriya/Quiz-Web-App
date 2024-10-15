@@ -8,7 +8,7 @@ export const getDataFromToken = (request: NextRequest) => {
     
     // Check if the token is not empty
     if (!token) {
-      throw new Error("No token provided");
+      throw new Error("Please Login or Signup");
     }
 
     // Verify and decode the token

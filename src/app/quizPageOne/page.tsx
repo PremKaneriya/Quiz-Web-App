@@ -336,6 +336,13 @@ const QuizManager: React.FC = () => {
               <span className="text-sm sm:text-base">🙏 Score Board</span>
             </button>
 
+            <button
+              onClick={() => router.push("/")}
+              className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
+            >
+              <span className="text-sm sm:text-base"><strong>/</strong></span>
+            </button>
+
             {/* Dark Mode Toggle Button */}
             <button
               onClick={toggleDarkMode}
@@ -471,7 +478,7 @@ const QuizManager: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-yellow-500 text-white font-medium py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 hover:bg-yellow-600"
+                className="bg-yellow-500 text-black font-medium py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 hover:bg-yellow-600"
               >
                 {loading ? "Creating..." : "Create Quiz"}
               </button>
@@ -567,7 +574,7 @@ const QuizManager: React.FC = () => {
 
                       <button
                         onClick={() => checkAnswer(quiz._id, qIndex)}
-                        className={`mt-2 bg-yellow-500 text-white px-3 py-1 rounded-md text-sm font-medium ${
+                        className={`mt-2 bg-yellow-500 text-black px-3 py-1 rounded-md text-sm font-medium ${
                           darkMode
                             ? "hover:bg-yellow-600"
                             : "hover:bg-yellow-600"
@@ -617,7 +624,7 @@ const QuizManager: React.FC = () => {
                   with your friends and challenge your brain!
                 </p>
                 <button
-                  className="mt-4 bg-yellow-500 text-white px-4 py-2 rounded text-sm sm:text-base"
+                  className="mt-4 bg-yellow-500 text-black px-4 py-2 rounded text-sm sm:text-base"
                   onClick={handleClosePopup} // Allow user to close the popup
                 >
                   Close

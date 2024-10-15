@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
-import { div, h1, span, nav } from "framer-motion/client";
 import Link from "next/link";
+import router from "next/navigation";
 import React from "react";
 
 export default function Home() {
@@ -25,6 +25,13 @@ export default function Home() {
             >
               Login
             </Link>
+            <Link
+              href="/quizPageOne"
+              className="text-gray-100 bg-gray-800 hover:bg-gray-600 focus:ring-2 focus:outline-none focus:ring-gray-500 font-medium rounded-lg text-lg px-6 py-2 transition-colors duration-200"
+            >
+              Home
+            </Link>
+
           </nav>
         </div>
       </div>
