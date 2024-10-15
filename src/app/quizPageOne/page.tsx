@@ -79,20 +79,33 @@ const QuizManager: React.FC = () => {
 
   useEffect(() => {
     fetchQuizzes();
-    showPopup(); // Show the popup when the component mounts
   }, []);
 
+  // Function to show the popup
   const showPopup = () => {
-    setPopupVisible(true); // Show the popup when the component mounts
+    setPopupVisible(true);
+  };
+
+  useEffect(() => {
+    // Check if the user has already seen the popup
+    const hasSeenPopup = localStorage.getItem("hasSeenPopup");
+    if (!hasSeenPopup) {
+      showPopup(); // Show the popup if it's the first login
+    }
+  }, []); // Run only on the first render
+
+  const handleClosePopup = () => {
+    localStorage.setItem("hasSeenPopup", "true"); // Mark the popup as seen
+    setPopupVisible(false); // Hide the popup
   };
 
   useEffect(() => {
     if (popupVisible) {
       const timer = setTimeout(() => {
-        setPopupVisible(false);
-      }, 5000); // Hide popup after 5 seconds
+        setPopupVisible(false); // Hide the popup after 5 seconds
+      }, 5000);
 
-      return () => clearTimeout(timer); // Clean up timer on unmount
+      return () => clearTimeout(timer); // Clean up the timer on unmount
     }
   }, [popupVisible]);
 
@@ -300,11 +313,11 @@ const QuizManager: React.FC = () => {
             Quiz Manager
           </h1>
 
-          <div className="flex flex-col sm:flex-row gap-4 sm:gap-5">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-5">
             {/* Profile Section */}
             <button
               onClick={handleProfileClick}
-              className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
+              className="flex items-center space-x-2 bg-violet-700 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-violet-500"
             >
               <img
                 src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
@@ -318,31 +331,19 @@ const QuizManager: React.FC = () => {
 
             <button
               onClick={() => router.push("/totalUsers")}
-              className="flex items-center space-x-2 bg-blue-800 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-700"
+              className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
             >
-              {/* <img
-                src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
-                alt="Profile"
-                className="w-5 h-5"
-              /> */}
               <span className="text-sm sm:text-base">🙏 Score Board</span>
             </button>
 
             {/* Dark Mode Toggle Button */}
             <button
               onClick={toggleDarkMode}
-              className={`
-        flex items-center justify-center
-        w-28 h-9 rounded-lg text-sm
-        transform transition-all duration-300 ease-in-out
-        ${
-          darkMode
-            ? "bg-indigo-700 hover:bg-indigo-600 text-white"
-            : "bg-blue-300 hover:bg-blue-300 text-gray-800"
-        }
-        ${darkMode ? "focus:ring-indigo-500" : "focus:ring-yellow-500"}
-        shadow-md
-      `}
+              className={`flex items-center justify-center w-28 h-9 rounded-lg text-sm transform transition-all duration-300 ease-in-out ${
+                darkMode
+                  ? "bg-gray-700 hover:bg-gray-600 text-white"
+                  : "bg-gray-300 hover:bg-gray-300 text-gray-800"
+              } focus:ring-gray-500 shadow-md`}
             >
               <div className="flex items-center space-x-1">
                 <span className="text-base">{darkMode ? "☀️" : "🌚"}</span>
@@ -383,7 +384,7 @@ const QuizManager: React.FC = () => {
                 name="title"
                 value={newQuiz.title}
                 onChange={handleInputChange}
-                className={`mt-1 block w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${
+                className={`mt-1 block w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 ${
                   darkMode
                     ? "bg-gray-700 text-gray-300 border-gray-600"
                     : "border-gray-300 text-gray-900"
@@ -401,7 +402,7 @@ const QuizManager: React.FC = () => {
                   onChange={(e) =>
                     handleQuestionChange(qIndex, "questionText", e.target.value)
                   }
-                  className={`block w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${
+                  className={`block w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 ${
                     darkMode
                       ? "bg-gray-700 text-gray-300 border-gray-600"
                       : "border-gray-300 text-gray-900"
@@ -425,7 +426,7 @@ const QuizManager: React.FC = () => {
                           e.target.value
                         )
                       }
-                      className={`flex-grow px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 ${
+                      className={`flex-grow px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 ${
                         darkMode
                           ? "bg-gray-700 text-gray-300 border-gray-600"
                           : "border-gray-300 text-gray-900"
@@ -449,7 +450,7 @@ const QuizManager: React.FC = () => {
                             e.target.checked
                           )
                         }
-                        className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        className="h-4 w-4 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500"
                       />
                       <span>Correct</span>
                     </label>
@@ -470,7 +471,7 @@ const QuizManager: React.FC = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className="bg-blue-600 text-white font-medium py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 hover:bg-blue-700"
+                className="bg-yellow-500 text-white font-medium py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 hover:bg-yellow-600"
               >
                 {loading ? "Creating..." : "Create Quiz"}
               </button>
@@ -551,7 +552,7 @@ const QuizManager: React.FC = () => {
                               onChange={() =>
                                 handleAnswerSelect(quiz._id, qIndex, oIndex)
                               }
-                              className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                              className="h-4 w-4 text-yellow-600 border-gray-300 focus:ring-yellow-500"
                             />
                             <span
                               className={`text-sm sm:text-base ${
@@ -566,8 +567,10 @@ const QuizManager: React.FC = () => {
 
                       <button
                         onClick={() => checkAnswer(quiz._id, qIndex)}
-                        className={`mt-2 bg-blue-600 text-white px-3 py-1 rounded-md text-sm font-medium ${
-                          darkMode ? "hover:bg-blue-700" : "hover:bg-blue-700"
+                        className={`mt-2 bg-yellow-500 text-white px-3 py-1 rounded-md text-sm font-medium ${
+                          darkMode
+                            ? "hover:bg-yellow-600"
+                            : "hover:bg-yellow-600"
                         }`}
                       >
                         Check Answer
@@ -614,8 +617,8 @@ const QuizManager: React.FC = () => {
                   with your friends and challenge your brain!
                 </p>
                 <button
-                  className="mt-4 bg-blue-500 text-white px-4 py-2 rounded text-sm sm:text-base"
-                  onClick={() => setPopupVisible(false)}
+                  className="mt-4 bg-yellow-500 text-white px-4 py-2 rounded text-sm sm:text-base"
+                  onClick={handleClosePopup} // Allow user to close the popup
                 >
                   Close
                 </button>
