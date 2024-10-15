@@ -17,13 +17,14 @@ const connectDB = async () => {
                 console.log("DataBase connection error", error);
             });
 
-            console.log("DataBase connected");
+            return connection; // Return the connection object
         } else {
             throw new Error("No DataBase URI provided");
         }
 
     } catch (error) {
-        console.log("Error connecting to DataBase", error); 
+        console.log("Error connecting to DataBase", error);
+        throw error; // Re-throw the error for handling at the calling site
     }
 }
 

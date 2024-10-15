@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { FaSignOutAlt, FaArrowLeft } from "react-icons/fa";
+import { div, h1, p, span, button } from "framer-motion/client";
 
 export default function Profile() {
   const router = useRouter();
@@ -61,48 +62,49 @@ export default function Profile() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-purple-600 to-blue-400 p-4 relative">
+    <div className="flex items-center justify-center min-h-screen bg-gray-900 p-4">
       <Toaster position="top-center" reverseOrder={false} />
 
-      <div className="relative z-10 w-full max-w-md bg-white rounded-lg shadow-lg p-6 sm:p-8 flex flex-col items-center">
+      <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-xl p-6 sm:p-8 flex flex-col items-center">
         <div className="flex flex-col items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-800 mt-4">{user.name}</h1>
-          <p className="text-sm text-gray-600">{user.email}</p>
-          <p className="text-lg font-medium text-gray-800 mt-2">
+          <h1 className="text-2xl font-bold text-gray-100 mt-4">{user.name}</h1>
+          <p className="text-sm text-gray-400">{user.email}</p>
+          <p className="text-lg font-medium text-gray-300 mt-2">
             Quizzes Created:{" "}
-            <span className="font-bold">{user.quizzesCreated}</span>
+            <span className="font-bold text-yellow-400">
+              {user.quizzesCreated}
+            </span>
           </p>
-          <p className="text-lg font-medium text-gray-800 mt-2">
-            Total Score: <span className="font-bold">{user.totalScore}</span>
+          <p className="text-lg font-medium text-gray-300 mt-2">
+            Total Score:{" "}
+            <span className="font-bold text-yellow-400">{user.totalScore}</span>
           </p>
         </div>
 
         {error && (
-          <p className="mt-4 text-center text-sm text-red-500">{error}</p>
+          <p className="mt-4 text-center text-sm text-red-400">{error}</p>
         )}
 
         <div className="text-center mb-4 w-full">
           <button
             onClick={handleBack}
-            className="flex items-center justify-center space-x-2 px-4 py-4 font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-500 transition ease-in-out duration-150 w-full"
+            className="flex items-center justify-center space-x-2 px-4 py-3 font-medium text-gray-900 bg-yellow-400 rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition duration-150 ease-in-out w-full"
           >
             <FaArrowLeft />
             <span>Back to Quiz</span>
           </button>
         </div>
 
-        <div className="text-center mb-4 w-full">
+        <div className="text-center w-full">
           <button
             onClick={handleLogout}
-            className="flex items-center justify-center space-x-2 px-4 py-4 font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-500 transition ease-in-out duration-150 w-full"
+            className="flex items-center justify-center space-x-2 px-4 py-3 font-medium text-gray-100 bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-150 ease-in-out w-full"
           >
             <FaSignOutAlt />
             <span>Logout</span>
           </button>
         </div>
       </div>
-
-      <div className="absolute inset-0 opacity-10"></div>
     </div>
   );
 }

@@ -316,6 +316,18 @@ const QuizManager: React.FC = () => {
               </span>
             </button>
 
+            <button
+              onClick={() => router.push("/totalUsers")}
+              className="flex items-center space-x-2 bg-blue-800 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-700"
+            >
+              {/* <img
+                src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
+                alt="Profile"
+                className="w-5 h-5"
+              /> */}
+              <span className="text-sm sm:text-base">🙏 Score Board</span>
+            </button>
+
             {/* Dark Mode Toggle Button */}
             <button
               onClick={toggleDarkMode}
@@ -326,7 +338,7 @@ const QuizManager: React.FC = () => {
         ${
           darkMode
             ? "bg-indigo-700 hover:bg-indigo-600 text-white"
-            : "bg-blue-300 hover:bg-blue-300 text-gray-800" 
+            : "bg-blue-300 hover:bg-blue-300 text-gray-800"
         }
         ${darkMode ? "focus:ring-indigo-500" : "focus:ring-yellow-500"}
         shadow-md
