@@ -18,6 +18,8 @@ import {
 } from "framer-motion/client";
 import { useRouter } from "next/navigation";
 import { type } from "os";
+import { parse } from "path";
+import { stringify } from "querystring";
 
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 
@@ -57,8 +59,21 @@ const QuizManager: React.FC = () => {
   const router = useRouter();
   const [darkMode, setDarkMode] = useState(false);
 
+  // Load dark mode state from localStorage when the component mounts
+  useEffect(() => {
+    const savedDarkMode = localStorage.getItem("darkMode");
+    if (savedDarkMode) {
+      setDarkMode(JSON.parse(savedDarkMode)); // parse and set the state
+    }
+  }, []);
+
+  // Toggle dark mode and save the preference to localStorage
   const toggleDarkMode = () => {
-    setDarkMode((prevMode) => !prevMode);
+    setDarkMode((prevMode) => {
+      const newMode = !prevMode;
+      localStorage.setItem("darkMode", JSON.stringify(newMode)); // Save to localStorage
+      return newMode;
+    });
   };
 
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
@@ -303,335 +318,345 @@ const QuizManager: React.FC = () => {
 
   return (
     <>
-      <div
-        className={`container mx-auto p-4 sm:p-6 space-y-8 ${
-          darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
-        }`}
-      >
-        <div className="flex flex-col sm:flex-row justify-between items-center w-full mb-4">
-          <h1 className="text-2xl sm:text-3xl font-extrabold mb-4 sm:mb-0">
-            Quiz Manager
-          </h1>
-
-          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-5">
-            {/* Profile Section */}
-            <button
-              onClick={handleProfileClick}
-              className="flex items-center space-x-2 bg-violet-700 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-violet-500"
-            >
-              <img
-                src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
-                alt="Profile"
-                className="w-5 h-5"
-              />
-              <span className="text-sm sm:text-base">
-                {user?.name || "Profile"}
-              </span>
-            </button>
-
-            <button
-              onClick={() => router.push("/totalUsers")}
-              className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
-            >
-              <span className="text-sm sm:text-base">🙏 Score Board</span>
-            </button>
-
-            <button
-              onClick={() => router.push("/")}
-              className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
-            >
-              <span className="text-sm sm:text-base"><strong>/</strong></span>
-            </button>
-
-            {/* Dark Mode Toggle Button */}
-            <button
-              onClick={toggleDarkMode}
-              className={`flex items-center justify-center w-28 h-9 rounded-lg text-sm transform transition-all duration-300 ease-in-out ${
-                darkMode
-                  ? "bg-gray-700 hover:bg-gray-600 text-white"
-                  : "bg-gray-300 hover:bg-gray-300 text-gray-800"
-              } focus:ring-gray-500 shadow-md`}
-            >
-              <div className="flex items-center space-x-1">
-                <span className="text-base">{darkMode ? "☀️" : "🌚"}</span>
-                <span className="font-medium">
-                  {darkMode ? "Light" : "Dark"}
-                </span>
-              </div>
-            </button>
-          </div>
-        </div>
-
-        {/* Create Quiz Form */}
+      <div className="bg-gray-900 h-screen w-full">
         <div
-          className={`shadow-sm rounded-lg p-4 sm:p-6 ${
-            darkMode ? "bg-gray-800" : "bg-gray-50"
+          className={`container mx-auto p-4 sm:p-6 space-y-8 ${
+            darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
           }`}
         >
-          <h2
-            className={`text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 ${
-              darkMode ? "text-white" : "text-gray-800"
+          <div className="flex flex-col sm:flex-row justify-between items-center w-full mb-4">
+            <h1 className="text-2xl sm:text-3xl font-extrabold mb-4 sm:mb-0">
+              Quiz Manager
+            </h1>
+
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-5">
+              {/* Profile Section */}
+              <button
+                onClick={handleProfileClick}
+                className="flex items-center space-x-2 bg-violet-700 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-violet-500"
+              >
+                <img
+                  src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
+                  alt="Profile"
+                  className="w-5 h-5"
+                />
+                <span className="text-sm sm:text-base">
+                  {user?.name || "Profile"}
+                </span>
+              </button>
+
+              <button
+                onClick={() => router.push("/totalUsers")}
+                className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
+              >
+                <span className="text-sm sm:text-base">🙏 Score Board</span>
+              </button>
+
+              <button
+                onClick={() => router.push("/")}
+                className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
+              >
+                <span className="text-sm sm:text-base">
+                  <strong>/</strong>
+                </span>
+              </button>
+
+              {/* Dark Mode Toggle Button */}
+              <button
+                onClick={toggleDarkMode}
+                className={`flex items-center justify-center w-28 h-9 rounded-lg text-sm transform transition-all duration-300 ease-in-out ${
+                  darkMode
+                    ? "bg-gray-700 hover:bg-gray-600 text-white"
+                    : "bg-gray-300 hover:bg-gray-300 text-gray-800"
+                } focus:ring-gray-500 shadow-md`}
+              >
+                <div className="flex items-center space-x-1">
+                  <span className="text-base">{darkMode ? "☀️" : "🌚"}</span>
+                  <span className="font-medium">
+                    {darkMode ? "Light" : "Dark"}
+                  </span>
+                </div>
+              </button>
+            </div>
+          </div>
+
+          {/* Create Quiz Form */}
+          <div
+            className={`shadow-sm rounded-lg p-4 sm:p-6 ${
+              darkMode ? "bg-gray-800" : "bg-gray-50"
             }`}
           >
-            Create New Quiz
-          </h2>
-          <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-            <div>
-              <label
-                htmlFor="title"
-                className={`block text-sm sm:text-lg font-medium ${
-                  darkMode ? "text-gray-300" : "text-gray-700"
-                }`}
-              >
-                Quiz Title
-              </label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={newQuiz.title}
-                onChange={handleInputChange}
-                className={`mt-1 block w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 ${
-                  darkMode
-                    ? "bg-gray-700 text-gray-300 border-gray-600"
-                    : "border-gray-300 text-gray-900"
-                }`}
-                placeholder="Enter quiz title"
-                required
-              />
-            </div>
-
-            {newQuiz.questions.map((question, qIndex) => (
-              <div key={qIndex} className="space-y-4">
+            <h2
+              className={`text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 ${
+                darkMode ? "text-white" : "text-gray-800"
+              }`}
+            >
+              Create New Quiz
+            </h2>
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+              <div>
+                <label
+                  htmlFor="title"
+                  className={`block text-sm sm:text-lg font-medium ${
+                    darkMode ? "text-gray-300" : "text-gray-700"
+                  }`}
+                >
+                  Quiz Title
+                </label>
                 <input
                   type="text"
-                  value={question.questionText}
-                  onChange={(e) =>
-                    handleQuestionChange(qIndex, "questionText", e.target.value)
-                  }
-                  className={`block w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 ${
+                  id="title"
+                  name="title"
+                  value={newQuiz.title}
+                  onChange={handleInputChange}
+                  className={`mt-1 block w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 ${
                     darkMode
                       ? "bg-gray-700 text-gray-300 border-gray-600"
                       : "border-gray-300 text-gray-900"
                   }`}
-                  placeholder="Question text"
+                  placeholder="Enter quiz title"
                   required
                 />
-                {question.options.map((option, oIndex) => (
-                  <div
-                    key={oIndex}
-                    className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4"
-                  >
-                    <input
-                      type="text"
-                      value={option.text}
-                      onChange={(e) =>
-                        handleOptionChange(
-                          qIndex,
-                          oIndex,
-                          "text",
-                          e.target.value
-                        )
-                      }
-                      className={`flex-grow px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 ${
-                        darkMode
-                          ? "bg-gray-700 text-gray-300 border-gray-600"
-                          : "border-gray-300 text-gray-900"
-                      }`}
-                      placeholder="Option text"
-                      required
-                    />
-                    <label
-                      className={`flex items-center space-x-2 ${
-                        darkMode ? "text-gray-300" : "text-gray-700"
-                      }`}
+              </div>
+
+              {newQuiz.questions.map((question, qIndex) => (
+                <div key={qIndex} className="space-y-4">
+                  <input
+                    type="text"
+                    value={question.questionText}
+                    onChange={(e) =>
+                      handleQuestionChange(
+                        qIndex,
+                        "questionText",
+                        e.target.value
+                      )
+                    }
+                    className={`block w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 ${
+                      darkMode
+                        ? "bg-gray-700 text-gray-300 border-gray-600"
+                        : "border-gray-300 text-gray-900"
+                    }`}
+                    placeholder="Question text"
+                    required
+                  />
+                  {question.options.map((option, oIndex) => (
+                    <div
+                      key={oIndex}
+                      className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4"
                     >
                       <input
-                        type="checkbox"
-                        checked={option.isCorrect}
+                        type="text"
+                        value={option.text}
                         onChange={(e) =>
                           handleOptionChange(
                             qIndex,
                             oIndex,
-                            "isCorrect",
-                            e.target.checked
+                            "text",
+                            e.target.value
                           )
                         }
-                        className="h-4 w-4 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500"
+                        className={`flex-grow px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 ${
+                          darkMode
+                            ? "bg-gray-700 text-gray-300 border-gray-600"
+                            : "border-gray-300 text-gray-900"
+                        }`}
+                        placeholder="Option text"
+                        required
                       />
-                      <span>Correct</span>
-                    </label>
-                  </div>
-                ))}
-              </div>
-            ))}
-
-            <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
-              <button
-                type="button"
-                onClick={addQuestion}
-                className="bg-green-600 text-white font-medium py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 hover:bg-green-700"
-              >
-                Add Question
-              </button>
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="bg-yellow-500 text-black font-medium py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 hover:bg-yellow-600"
-              >
-                {loading ? "Creating..." : "Create Quiz"}
-              </button>
-            </div>
-          </form>
-          {error && <p className="mt-4 text-red-500">{error}</p>}
-        </div>
-
-        {/* Display Quizzes */}
-        <div className="max-w-full sm:max-w-3xl mx-auto px-2 sm:px-0">
-          <h2
-            className={`text-xl sm:text-2xl font-semibold mb-2 sm:mb-4 ${
-              darkMode ? "text-white" : "text-gray-800"
-            }`}
-          >
-            Play Quizzes
-            <span className="text-gray-500 ml-2">↓</span>
-          </h2>
-          {loading && <p className="text-gray-500 mb-4">Loading quizzes...</p>}
-
-          <div className="space-y-4">
-            {quizzes.map((quiz) => (
-              <div
-                key={quiz._id}
-                className={`rounded-lg p-4 shadow-sm border ${
-                  darkMode
-                    ? "bg-gray-800 border-gray-700"
-                    : "bg-white border-gray-200"
-                }`}
-              >
-                <h3
-                  className={`text-lg sm:text-xl font-semibold mb-1 sm:mb-2 ${
-                    darkMode ? "text-white" : "text-gray-800"
-                  }`}
-                >
-                  {quiz.title}
-                </h3>
-                <p
-                  className={`text-sm sm:text-base mb-2 ${
-                    darkMode ? "text-gray-400" : "text-gray-600"
-                  }`}
-                >
-                  {quiz.questions.length} Questions
-                </p>
-
-                <div className="space-y-4">
-                  {quiz.questions.map((question, qIndex) => (
-                    <div key={qIndex} className="space-y-2">
-                      <div
-                        className={`rounded-lg p-3 border ${
-                          darkMode
-                            ? "bg-gray-700 border-gray-600"
-                            : "bg-gray-50 border-gray-300"
+                      <label
+                        className={`flex items-center space-x-2 ${
+                          darkMode ? "text-gray-300" : "text-gray-700"
                         }`}
                       >
-                        <p
-                          className={`text-sm sm:text-base font-medium ${
-                            darkMode ? "text-gray-300" : "text-gray-700"
-                          }`}
-                        >
-                          Q{qIndex + 1}: {question.questionText}
-                        </p>
-                      </div>
-
-                      <div className="space-y-2">
-                        {question.options.map((option, oIndex) => (
-                          <label
-                            key={oIndex}
-                            className="flex items-center space-x-2"
-                          >
-                            <input
-                              type="radio"
-                              name={`${quiz._id}-${qIndex}`}
-                              checked={
-                                selectedAnswers[`${quiz._id}-${qIndex}`] ===
-                                oIndex
-                              }
-                              onChange={() =>
-                                handleAnswerSelect(quiz._id, qIndex, oIndex)
-                              }
-                              className="h-4 w-4 text-yellow-600 border-gray-300 focus:ring-yellow-500"
-                            />
-                            <span
-                              className={`text-sm sm:text-base ${
-                                darkMode ? "text-gray-300" : "text-gray-700"
-                              }`}
-                            >
-                              {option.text}
-                            </span>
-                          </label>
-                        ))}
-                      </div>
-
-                      <button
-                        onClick={() => checkAnswer(quiz._id, qIndex)}
-                        className={`mt-2 bg-yellow-500 text-black px-3 py-1 rounded-md text-sm font-medium ${
-                          darkMode
-                            ? "hover:bg-yellow-600"
-                            : "hover:bg-yellow-600"
-                        }`}
-                      >
-                        Check Answer
-                      </button>
-
-                      {feedback[`${quiz._id}-${qIndex}`] && (
-                        <p
-                          className={`mt-2 text-sm font-medium ${
-                            feedback[`${quiz._id}-${qIndex}`] === "Correct!"
-                              ? "text-green-600"
-                              : "text-red-600"
-                          }`}
-                        >
-                          {feedback[`${quiz._id}-${qIndex}`]}
-                        </p>
-                      )}
+                        <input
+                          type="checkbox"
+                          checked={option.isCorrect}
+                          onChange={(e) =>
+                            handleOptionChange(
+                              qIndex,
+                              oIndex,
+                              "isCorrect",
+                              e.target.checked
+                            )
+                          }
+                          className="h-4 w-4 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500"
+                        />
+                        <span>Correct</span>
+                      </label>
                     </div>
                   ))}
                 </div>
+              ))}
 
-                <p
-                  className={`mt-4 text-sm sm:text-base ${
-                    darkMode ? "text-gray-400" : "text-gray-500"
-                  }`}
-                >
-                  Created by:{" "}
-                  <span className="font-medium">
-                    {quiz.createdBy || "Unknown"}
-                  </span>
-                </p>
-              </div>
-            ))}
-          </div>
-
-          {/* Popup Component */}
-          {popupVisible && (
-            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-              <div className="bg-white p-6 sm:p-8 md:p-10 lg:p-12 rounded shadow-lg max-w-sm sm:max-w-md lg:max-w-lg">
-                <h2 className="text-lg sm:text-xl md:text-2xl font-bold">
-                  Brain-Building Game!
-                </h2>
-                <p className="text-sm sm:text-base md:text-lg">
-                  This game is designed to improve your cognitive skills. Play
-                  with your friends and challenge your brain!
-                </p>
+              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
                 <button
-                  className="mt-4 bg-yellow-500 text-black px-4 py-2 rounded text-sm sm:text-base"
-                  onClick={handleClosePopup} // Allow user to close the popup
+                  type="button"
+                  onClick={addQuestion}
+                  className="bg-green-600 text-white font-medium py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 hover:bg-green-700"
                 >
-                  Close
+                  Add Question
+                </button>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="bg-yellow-500 text-black font-medium py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 hover:bg-yellow-600"
+                >
+                  {loading ? "Creating..." : "Create Quiz"}
                 </button>
               </div>
+            </form>
+            {error && <p className="mt-4 text-red-500">{error}</p>}
+          </div>
+
+          {/* Display Quizzes */}
+          <div className="max-w-full sm:max-w-3xl mx-auto px-2 sm:px-0">
+            <h2
+              className={`text-xl sm:text-2xl font-semibold mb-2 sm:mb-4 ${
+                darkMode ? "text-white" : "text-gray-800"
+              }`}
+            >
+              Play Quizzes
+              <span className="text-gray-500 ml-2">↓</span>
+            </h2>
+            {loading && (
+              <p className="text-gray-500 mb-4">Loading quizzes...</p>
+            )}
+
+            <div className="space-y-4">
+              {quizzes.map((quiz) => (
+                <div
+                  key={quiz._id}
+                  className={`rounded-lg p-4 shadow-sm border ${
+                    darkMode
+                      ? "bg-gray-800 border-gray-700"
+                      : "bg-white border-gray-200"
+                  }`}
+                >
+                  <h3
+                    className={`text-lg sm:text-xl font-semibold mb-1 sm:mb-2 ${
+                      darkMode ? "text-white" : "text-gray-800"
+                    }`}
+                  >
+                    {quiz.title}
+                  </h3>
+                  <p
+                    className={`text-sm sm:text-base mb-2 ${
+                      darkMode ? "text-gray-400" : "text-gray-600"
+                    }`}
+                  >
+                    {quiz.questions.length} Questions
+                  </p>
+
+                  <div className="space-y-4">
+                    {quiz.questions.map((question, qIndex) => (
+                      <div key={qIndex} className="space-y-2">
+                        <div
+                          className={`rounded-lg p-3 border ${
+                            darkMode
+                              ? "bg-gray-700 border-gray-600"
+                              : "bg-gray-50 border-gray-300"
+                          }`}
+                        >
+                          <p
+                            className={`text-sm sm:text-base font-medium ${
+                              darkMode ? "text-gray-300" : "text-gray-700"
+                            }`}
+                          >
+                            Q{qIndex + 1}: {question.questionText}
+                          </p>
+                        </div>
+
+                        <div className="space-y-2">
+                          {question.options.map((option, oIndex) => (
+                            <label
+                              key={oIndex}
+                              className="flex items-center space-x-2"
+                            >
+                              <input
+                                type="radio"
+                                name={`${quiz._id}-${qIndex}`}
+                                checked={
+                                  selectedAnswers[`${quiz._id}-${qIndex}`] ===
+                                  oIndex
+                                }
+                                onChange={() =>
+                                  handleAnswerSelect(quiz._id, qIndex, oIndex)
+                                }
+                                className="h-4 w-4 text-yellow-600 border-gray-300 focus:ring-yellow-500"
+                              />
+                              <span
+                                className={`text-sm sm:text-base ${
+                                  darkMode ? "text-gray-300" : "text-gray-700"
+                                }`}
+                              >
+                                {option.text}
+                              </span>
+                            </label>
+                          ))}
+                        </div>
+
+                        <button
+                          onClick={() => checkAnswer(quiz._id, qIndex)}
+                          className={`mt-2 bg-yellow-500 text-black px-3 py-1 rounded-md text-sm font-medium ${
+                            darkMode
+                              ? "hover:bg-yellow-600"
+                              : "hover:bg-yellow-600"
+                          }`}
+                        >
+                          Check Answer
+                        </button>
+
+                        {feedback[`${quiz._id}-${qIndex}`] && (
+                          <p
+                            className={`mt-2 text-sm font-medium ${
+                              feedback[`${quiz._id}-${qIndex}`] === "Correct!"
+                                ? "text-green-600"
+                                : "text-red-600"
+                            }`}
+                          >
+                            {feedback[`${quiz._id}-${qIndex}`]}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  <p
+                    className={`mt-4 text-sm sm:text-base ${
+                      darkMode ? "text-gray-400" : "text-gray-500"
+                    }`}
+                  >
+                    Created by:{" "}
+                    <span className="font-medium">
+                      {quiz.createdBy || "Unknown"}
+                    </span>
+                  </p>
+                </div>
+              ))}
             </div>
-          )}
+
+            {/* Popup Component */}
+            {popupVisible && (
+              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                <div className="bg-white p-6 sm:p-8 md:p-10 lg:p-12 rounded shadow-lg max-w-sm sm:max-w-md lg:max-w-lg">
+                  <h2 className="text-lg sm:text-xl md:text-2xl font-bold">
+                    Brain-Building Game!
+                  </h2>
+                  <p className="text-sm sm:text-base md:text-lg">
+                    This game is designed to improve your cognitive skills. Play
+                    with your friends and challenge your brain!
+                  </p>
+                  <button
+                    className="mt-4 bg-yellow-500 text-black px-4 py-2 rounded text-sm sm:text-base"
+                    onClick={handleClosePopup} // Allow user to close the popup
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </>
