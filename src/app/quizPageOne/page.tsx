@@ -674,24 +674,24 @@ const QuizManager: React.FC = () => {
 
             {/* Login Popup */}
             {loginpopupVisible && (
-              <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm transition-all z-50">
-                <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-sm mx-4 transform transition-all">
-                  <h2 className="text-2xl font-light text-gray-800 mb-4 text-center">
+              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                <div className="bg-primary p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
+                  <h2 className="text-xl font-semibold mb-4 text-white">
                     Please Log In
                   </h2>
-                  <p className="text-gray-600 text-center mb-8">
+                  <p className="text-gray-300 mb-6">
                     You need to log in to play the quiz.
                   </p>
-                  <div className="space-y-3">
+                  <div className="flex justify-center space-x-4">
                     <button
-                      className="w-full bg-black hover:bg-gray-800 text-white py-3 rounded-lg transition-colors duration-200"
                       onClick={() => router.push("/login")}
+                      className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200"
                     >
                       Log In
                     </button>
                     <button
-                      className="w-full text-gray-600 hover:text-gray-800 py-3 rounded-lg transition-colors duration-200"
-                      onClick={handleCloseLoginPopup}
+                      onClick={() => setloginpopupVisible(false)}
+                      className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition duration-200"
                     >
                       Close
                     </button>
