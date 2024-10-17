@@ -674,22 +674,28 @@ const QuizManager: React.FC = () => {
 
             {/* Login Popup */}
             {loginpopupVisible && (
-              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                <div className="bg-white p-6 rounded-lg shadow-lg">
-                  <h2 className="text-xl font-semibold">Please Log In</h2>
-                  <p>You need to log in to play the quiz.</p>
-                  <button
-                    className="mt-4 bg-blue-500 text-white px-4 py-2 rounded"
-                    onClick={() => router.push("/login")}
-                  >
-                    Log In
-                  </button>
-                  <button
-                    className="mt-2 bg-gray-300 px-4 py-2 rounded"
-                    onClick={handleCloseLoginPopup}
-                  >
-                    Close
-                  </button>
+              <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm transition-all z-50">
+                <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-sm mx-4 transform transition-all">
+                  <h2 className="text-2xl font-light text-gray-800 mb-4 text-center">
+                    Please Log In
+                  </h2>
+                  <p className="text-gray-600 text-center mb-8">
+                    You need to log in to play the quiz.
+                  </p>
+                  <div className="space-y-3">
+                    <button
+                      className="w-full bg-black hover:bg-gray-800 text-white py-3 rounded-lg transition-colors duration-200"
+                      onClick={() => router.push("/login")}
+                    >
+                      Log In
+                    </button>
+                    <button
+                      className="w-full text-gray-600 hover:text-gray-800 py-3 rounded-lg transition-colors duration-200"
+                      onClick={handleCloseLoginPopup}
+                    >
+                      Close
+                    </button>
+                  </div>
                 </div>
               </div>
             )}
