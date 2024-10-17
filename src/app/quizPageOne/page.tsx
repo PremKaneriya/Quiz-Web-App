@@ -15,6 +15,7 @@ import {
   p,
   text,
   title,
+  filter,
 } from "framer-motion/client";
 import { useRouter } from "next/navigation";
 import { type } from "os";
@@ -329,6 +330,13 @@ const QuizManager: React.FC = () => {
     }));
   };
 
+  const removeQuestion = (qIndex: any) => {
+    setNewQuiz((prev) => ({
+      ...prev,
+      questions: prev.questions.filter((_, index) => index !== qIndex),
+    }));
+  };
+
   return (
     <>
       <div
@@ -498,6 +506,16 @@ const QuizManager: React.FC = () => {
                         />
                         <span>Correct</span>
                       </label>
+
+                      {/* Add the cross button for removing a question */}
+                      <button
+                        type="button"
+                        onClick={() => removeQuestion(qIndex)} // Call the remove function
+                        className="absolute top-0 right-0 text-red-600 hover:text-red-700 text-lg font-semibold"
+                        title="Remove Question" // Optional title for accessibility
+                      >
+                        X
+                      </button>
                     </div>
                   ))}
                 </div>
