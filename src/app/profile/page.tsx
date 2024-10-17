@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { FaSignOutAlt, FaArrowLeft } from "react-icons/fa";
-import { div, h1, p, span, button } from "framer-motion/client";
 
 export default function Profile() {
   const router = useRouter();
@@ -96,13 +95,22 @@ export default function Profile() {
         </div>
 
         <div className="text-center w-full">
-          <button
-            onClick={handleLogout}
-            className="flex items-center justify-center space-x-2 px-4 py-3 font-medium text-gray-100 bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-150 ease-in-out w-full"
-          >
-            <FaSignOutAlt />
-            <span>Logout</span>
-          </button>
+          {user.name ? (
+            <button
+              onClick={handleLogout}
+              className="flex items-center justify-center space-x-2 px-4 py-3 font-medium text-gray-100 bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-150 ease-in-out w-full"
+            >
+              <FaSignOutAlt />
+              <span>Logout</span>
+            </button>
+          ) : (
+            <button
+              onClick={() => router.push("/login")}
+              className="flex items-center justify-center space-x-2 px-4 py-3 font-medium text-gray-100 bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150 ease-in-out w-full"
+            >
+              <span>Login</span>
+            </button>
+          )}
         </div>
       </div>
     </div>
