@@ -318,7 +318,9 @@ const QuizManager: React.FC = () => {
 
   return (
     <>
-      <div className="bg-gray-900 h-screen w-full">
+      <div
+        className={`${darkMode ? "bg-gray-900" : "bg-white"} h-screen w-full`}
+      >
         <div
           className={`container mx-auto p-4 sm:p-6 space-y-8 ${
             darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
