@@ -674,26 +674,35 @@ const QuizManager: React.FC = () => {
 
             {/* Login Popup */}
             {loginpopupVisible && (
-              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                <div className="bg-primary p-6 rounded-lg shadow-lg max-w-sm w-full text-center">
-                  <h2 className="text-xl font-semibold mb-4 text-white">
-                    Please Log In
+              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-70">
+                <div className="bg-gray-900 p-8 rounded-lg shadow-md max-w-sm w-full relative">
+                  {/* Close Button */}
+                  {/* Close Button */}
+                  <button
+                    onClick={() => handleCloseLoginPopup()}
+                    className="absolute top-2 right-2 text-gray-400 hover:text-white"
+                  >
+                    &times; {/* Cross icon */}
+                  </button>
+
+                  <h2 className="text-2xl font-bold mb-4 text-yellow-500 text-center">
+                    Yay! Lets Start Playing the Quiz!
                   </h2>
-                  <p className="text-gray-300 mb-6">
-                    You need to log in to play the quiz.
+                  <p className="text-gray-300 mb-6 text-center">
+                    Please choose an option to continue.
                   </p>
-                  <div className="flex justify-center space-x-4">
+                  <div className="flex flex-col space-y-4">
                     <button
                       onClick={() => router.push("/login")}
-                      className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-200"
+                      className="bg-yellow-500 text-gray-900 px-6 py-2 rounded-md hover:bg-yellow-400 transition duration-300"
                     >
                       Log In
                     </button>
                     <button
-                      onClick={() => setloginpopupVisible(false)}
-                      className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition duration-200"
+                      onClick={() => router.push("/signup")}
+                      className="bg-gray-600 text-white px-6 py-2 rounded-md hover:bg-gray-500 transition duration-300"
                     >
-                      Close
+                      Sign Up
                     </button>
                   </div>
                 </div>
