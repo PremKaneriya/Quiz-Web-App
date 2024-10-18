@@ -506,18 +506,15 @@ const QuizManager: React.FC = () => {
                         />
                         <span>Correct</span>
                       </label>
-
-                      {/* Add the cross button for removing a question */}
-                      <button
-                        type="button"
-                        onClick={() => removeQuestion(qIndex)} // Call the remove function
-                        className="absolute top-0 right-0 text-red-600 hover:text-red-700 text-lg font-semibold"
-                        title="Remove Question" // Optional title for accessibility
-                      >
-                        X
-                      </button>
                     </div>
                   ))}
+                  <button
+                    type="button"
+                    onClick={() => removeQuestion(qIndex)} // Call the remove function
+                    className="bg-gray-400 px-2 py-2 rounded-lg" 
+                  >
+                    Remove
+                  </button>
                 </div>
               ))}
 
