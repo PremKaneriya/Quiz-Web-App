@@ -1,4 +1,3 @@
-'use client'
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
@@ -37,9 +36,9 @@ const UserDetails = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="p-6 bg-white rounded-lg shadow-lg">
-          <p className="text-red-500 flex items-center gap-2">⚠️ {error}</p>
+      <div className="min-h-screen flex items-center justify-center bg-[#1a1f2e]">
+        <div className="p-6 bg-[#242937] rounded-lg shadow-xl">
+          <p className="text-red-400 flex items-center gap-2">⚠️ {error}</p>
         </div>
       </div>
     );
@@ -47,8 +46,8 @@ const UserDetails = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center bg-gray-50">
-        <div className="w-10 h-10 border-4 border-gray-200 border-t-gray-800 rounded-full animate-spin" />
+      <div className="min-h-screen flex justify-center items-center bg-[#1a1f2e]">
+        <div className="w-10 h-10 border-4 border-gray-700 border-t-yellow-400 rounded-full animate-spin" />
       </div>
     );
   }
@@ -71,18 +70,23 @@ const UserDetails = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-[#1a1f2e] py-12 px-4">
       <div className="max-w-3xl mx-auto">
-        <div className="flex items-center mb-8">
-          <button
-            onClick={() => router.push("/quizPageOne")}
-            className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
-          >
-            ←
-          </button>
-          <h1 className="text-3xl font-semibold text-gray-900 ml-4">
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center">
+            <button
+              onClick={() => router.push("/quizPageOne")}
+              className="p-2 text-gray-400 hover:text-yellow-400 transition-colors"
+            >
+              ←
+            </button>
+            <h1 className="text-3xl font-bold text-white ml-4">
+              <span className="text-yellow-400">Quiz</span>Master
+            </h1>
+          </div>
+          <h2 className="text-xl font-semibold text-white flex items-center gap-2">
             👑 Leaderboard
-          </h1>
+          </h2>
         </div>
 
         {sortedUsers.length > 0 ? (
@@ -90,12 +94,12 @@ const UserDetails = () => {
             {sortedUsers.map((user, index) => (
               <div
                 key={user._id}
-                className="bg-white rounded-lg shadow-sm p-6 transition-all duration-200 hover:shadow-md"
+                className="bg-[#242937] rounded-lg p-6 transition-all duration-200 hover:bg-[#2a303f] border border-gray-800"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="relative w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
-                      <span className="text-2xl text-gray-400">👤</span>
+                    <div className="relative w-12 h-12 bg-[#1a1f2e] rounded-full flex items-center justify-center">
+                      <span className="text-2xl">👤</span>
                       {getMedalEmoji(index) && (
                         <span className="absolute -top-2 -right-2 text-xl">
                           {getMedalEmoji(index)}
@@ -103,17 +107,17 @@ const UserDetails = () => {
                       )}
                     </div>
                     <div>
-                      <h2 className="text-lg font-medium text-gray-900">
+                      <h2 className="text-lg font-medium text-white">
                         {user.name}
                       </h2>
-                      <p className="text-sm text-gray-500">{user.email}</p>
+                      <p className="text-gray-400">{user.email}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-2xl font-bold text-gray-900">
+                    <p className="text-2xl font-bold text-yellow-400">
                       {user.totalScore ?? 0}
                     </p>
-                    <p className="text-sm text-gray-500">
+                    <p className="text-gray-400">
                       {user.quizCount}{" "}
                       {user.quizCount === 1 ? "quiz" : "quizzes"}
                     </p>
@@ -122,18 +126,19 @@ const UserDetails = () => {
                 <div className="mt-4 flex items-center justify-between">
                   <span
                     className={`text-sm flex items-center gap-1 ${
-                      user.isLogin ? "text-green-500" : "text-gray-400"
+                      user.isLogin ? "text-green-400" : "text-gray-500"
                     }`}
                   >
                     <span
-                      className="w-2 h-2 rounded-full inline-block 
-                      ${user.isLogin ? 'bg-green-500' : 'bg-gray-400'}"
+                      className={`w-2 h-2 rounded-full inline-block ${
+                        user.isLogin ? "bg-green-400" : "bg-gray-500"
+                      }`}
                     ></span>
                     {user.isLogin ? "Online" : "Offline"}
                   </span>
                   <button
                     onClick={() => router.push(`/totalUsers/${user._id}`)}
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-colors group flex items-center gap-1"
+                    className="text-sm text-gray-400 hover:text-yellow-400 transition-colors group flex items-center gap-1"
                   >
                     View Profile
                     <span className="group-hover:translate-x-1 transition-transform duration-200">
@@ -145,9 +150,9 @@ const UserDetails = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-12 bg-white rounded-lg shadow-sm">
+          <div className="text-center py-12 bg-[#242937] rounded-lg border border-gray-800">
             <span className="text-6xl mb-4 block">👤</span>
-            <p className="text-gray-500">No users found</p>
+            <p className="text-gray-400">No users found</p>
           </div>
         )}
       </div>

@@ -1,4 +1,3 @@
-'use client'
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
@@ -45,21 +44,21 @@ const UserDetailPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center bg-gray-50">
-        <div className="w-10 h-10 border-4 border-gray-200 border-t-gray-800 rounded-full animate-spin" />
+      <div className="min-h-screen flex justify-center items-center bg-[#1a1f2e]">
+        <div className="w-10 h-10 border-4 border-gray-700 border-t-yellow-400 rounded-full animate-spin" />
       </div>
     );
   }
 
   if (error || !user) {
     return (
-      <div className="min-h-screen flex justify-center items-center bg-gray-50">
-        <div className="p-6 bg-white rounded-lg shadow-lg text-center">
+      <div className="min-h-screen flex justify-center items-center bg-[#1a1f2e]">
+        <div className="p-6 bg-[#242937] rounded-lg shadow-xl border border-gray-800 text-center">
           <span className="text-4xl mb-4 block">😕</span>
-          <p className="text-gray-600">{error || "User not found"}</p>
+          <p className="text-gray-400">{error || "User not found"}</p>
           <button
             onClick={() => router.back()}
-            className="mt-4 px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-colors"
+            className="mt-4 px-4 py-2 bg-[#1a1f2e] text-gray-400 rounded-lg hover:text-yellow-400 transition-colors"
           >
             Go Back
           </button>
@@ -69,36 +68,38 @@ const UserDetailPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4">
+    <div className="min-h-screen bg-[#1a1f2e] py-12 px-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="flex items-center mb-8">
-          <button
-            onClick={() => router.back()}
-            className="p-2 text-gray-600 hover:text-gray-900 transition-colors group"
-          >
-            <span className="text-xl group-hover:-translate-x-1 inline-block transition-transform">
-              ←
-            </span>
-          </button>
-          <h1 className="text-3xl font-semibold text-gray-900 ml-4">
-            Profile Details
-          </h1>
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center">
+            <button
+              onClick={() => router.back()}
+              className="p-2 text-gray-400 hover:text-yellow-400 transition-colors group"
+            >
+              <span className="text-xl group-hover:-translate-x-1 inline-block transition-transform">
+                ←
+              </span>
+            </button>
+            <h1 className="text-3xl font-bold text-white ml-4">
+              <span className="text-yellow-400">Quiz</span>Master
+            </h1>
+          </div>
         </div>
 
         {/* Main Content */}
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden">
+        <div className="bg-[#242937] rounded-xl shadow-xl border border-gray-800 overflow-hidden">
           {/* User Header */}
-          <div className="p-6 border-b border-gray-100">
+          <div className="p-6 border-b border-gray-800">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center">
+              <div className="w-16 h-16 bg-[#1a1f2e] rounded-full flex items-center justify-center">
                 <span className="text-3xl">👤</span>
               </div>
               <div>
-                <h2 className="text-2xl font-semibold text-gray-900">
+                <h2 className="text-2xl font-semibold text-white">
                   {user.name}
                 </h2>
-                <p className="text-gray-500">{user.email}</p>
+                <p className="text-gray-400">{user.email}</p>
               </div>
             </div>
           </div>
@@ -108,15 +109,15 @@ const UserDetailPage = () => {
             <div className="space-y-6">
               {/* Status */}
               <div className="flex items-center justify-between">
-                <span className="text-gray-600">Status</span>
+                <span className="text-gray-400">Status</span>
                 <span
                   className={`flex items-center gap-2 ${
-                    user.isLogin ? "text-green-500" : "text-gray-400"
+                    user.isLogin ? "text-green-400" : "text-gray-500"
                   }`}
                 >
                   <span
                     className={`w-2 h-2 rounded-full inline-block ${
-                      user.isLogin ? "bg-green-500" : "bg-gray-400"
+                      user.isLogin ? "bg-green-400" : "bg-gray-500"
                     }`}
                   ></span>
                   {user.isLogin ? "Online" : "Offline"}
@@ -125,16 +126,16 @@ const UserDetailPage = () => {
 
               {/* Score */}
               <div className="flex items-center justify-between">
-                <span className="text-gray-600">Total Score</span>
-                <span className="text-xl font-semibold text-gray-900">
+                <span className="text-gray-400">Total Score</span>
+                <span className="text-xl font-semibold text-yellow-400">
                   {user.totalScore} 🏆
                 </span>
               </div>
 
               {/* Quiz Count */}
               <div className="flex items-center justify-between">
-                <span className="text-gray-600">Quizzes Created</span>
-                <span className="text-gray-900">{user.quizCount} 📝</span>
+                <span className="text-gray-400">Quizzes Created</span>
+                <span className="text-white">{user.quizCount} 📝</span>
               </div>
             </div>
 
@@ -142,14 +143,14 @@ const UserDetailPage = () => {
               {/* Dates */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-600">Member Since</span>
-                  <span className="text-gray-900">
+                  <span className="text-gray-400">Member Since</span>
+                  <span className="text-white">
                     {new Date(user.createdAt).toLocaleDateString()}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-600">Last Updated</span>
-                  <span className="text-gray-900">
+                  <span className="text-gray-400">Last Updated</span>
+                  <span className="text-white">
                     {new Date(user.updatedAt).toLocaleDateString()}
                   </span>
                 </div>
