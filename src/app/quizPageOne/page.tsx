@@ -118,11 +118,13 @@ const QuizManager: React.FC = () => {
     setPopupVisible(false); // Hide the popup
   };
 
+  const time = 400000;
+
   useEffect(() => {
     if (popupVisible) {
       const timer = setTimeout(() => {
         setPopupVisible(false); // Hide the popup after 5 seconds
-      }, 5000);
+      }, time);
 
       return () => clearTimeout(timer); // Clean up the timer on unmount
     }
@@ -668,17 +670,16 @@ const QuizManager: React.FC = () => {
 
             {/* Popup Component */}
             {popupVisible && (
-              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-                <div className="bg-white p-6 sm:p-8 md:p-10 lg:p-12 rounded shadow-lg max-w-sm sm:max-w-md lg:max-w-lg">
-                  <h2 className="text-lg sm:text-xl md:text-2xl font-bold">
-                    Brain-Building Game!
+              <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-80">
+                <div className="bg-gray-900 p-10 rounded-lg shadow-3xl max-w-sm sm:max-w-md lg:max-w-lg transition-transform transform scale-100 hover:scale-105">
+                  <h3 className="text-2xl md:text-3xl font-bold text-center text-yellow-500 mb-2">
+                    Open Source Game
+                  </h3>
+                  <h2 className="text-lg md:text-xl text-gray-300 text-center mb-4">
+                    Where You Play and Create Quizzes
                   </h2>
-                  <p className="text-sm sm:text-base md:text-lg">
-                    This game is designed to improve your cognitive skills. Play
-                    with your friends and challenge your brain!
-                  </p>
                   <button
-                    className="mt-4 bg-yellow-500 text-black px-4 py-2 rounded text-sm sm:text-base"
+                    className="mt-4 bg-yellow-500 text-black px-6 py-2 rounded-md text-base font-semibold transition duration-300 hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-yellow-600 focus:ring-opacity-50"
                     onClick={handleClosePopup} // Allow user to close the popup
                   >
                     Close
