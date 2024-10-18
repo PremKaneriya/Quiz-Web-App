@@ -16,6 +16,7 @@ import {
   text,
   title,
   filter,
+  footer,
 } from "framer-motion/client";
 import { useRouter } from "next/navigation";
 import { type } from "os";
@@ -23,6 +24,7 @@ import { parse } from "path";
 import { stringify } from "querystring";
 
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { SkeletonLoader } from "../components/skeleton";
 
 interface Option {
   text: string;
@@ -549,9 +551,7 @@ const QuizManager: React.FC = () => {
               Play Quizzes
               <span className="text-gray-500 ml-2">↓</span>
             </h2>
-            {loading && (
-              <p className="text-gray-500 mb-4">Loading quizzes...</p>
-            )}
+            {loading && <SkeletonLoader />}
 
             <div className="space-y-4">
               {quizzes.map((quiz) => (
@@ -725,6 +725,17 @@ const QuizManager: React.FC = () => {
             )}
           </div>
         </div>
+        <footer className="bg-gray-800 text-gray-400 py-6">
+          <div className="container mx-auto text-center">
+            <p className="text-lg font-semibold text-yellow-500">
+              Quiz Sprint™
+            </p>
+            <p className="text-sm mt-2">Developed by Prem Kaneriya</p>
+            <p className="text-xs mt-4 text-gray-500">
+              © {new Date().getFullYear()} Quiz Sprint. All rights reserved.
+            </p>
+          </div>
+        </footer>
       </div>
     </>
   );
