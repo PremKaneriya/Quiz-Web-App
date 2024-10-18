@@ -1,3 +1,4 @@
+import { setMaxListeners } from "events";
 import mongoose from "mongoose";
 
 const connectDB = async () => {
@@ -7,6 +8,8 @@ const connectDB = async () => {
         if (uri) {
             await mongoose.connect(uri);
             console.log("Connected to DataBase");
+
+            mongoose.connection.setMaxListeners(20);
 
             const connection = mongoose.connection;
             connection.on("connected", () => {

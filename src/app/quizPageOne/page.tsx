@@ -511,7 +511,7 @@ const QuizManager: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => removeQuestion(qIndex)} // Call the remove function
-                    className="bg-gray-400 px-2 py-2 rounded-lg" 
+                    className="text-gray-400 hover:bg-gray-900 transition-colors duration-300 text-md font-semibold bg-slate-700 px-2 py-2 rounded-lg"
                   >
                     Remove
                   </button>
