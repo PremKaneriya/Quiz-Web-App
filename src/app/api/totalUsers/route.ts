@@ -20,6 +20,7 @@ export async function GET(request: NextRequest) {
                     name: 1,
                     email: 1,
                     isLogin: 1,
+                    totalScore: 1, // Make sure to include totalScore from the user collection
                     quizCount: { $size: "$quizzes" }, // Count the number of quizzes
                 },
             },

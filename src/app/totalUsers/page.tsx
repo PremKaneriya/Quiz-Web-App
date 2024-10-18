@@ -1,5 +1,5 @@
-"use client";
-import { useEffect, useState } from "react";
+'use client'
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 interface User {
@@ -8,6 +8,7 @@ interface User {
   email: string;
   isLogin: boolean;
   quizCount: number;
+  totalScore: number | null;
 }
 
 const UserDetails = () => {
@@ -20,103 +21,137 @@ const UserDetails = () => {
     const fetchUserDetails = async () => {
       try {
         const response = await fetch("/api/totalUsers");
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch user details");
-        }
-
+        if (!response.ok) throw new Error("Failed to fetch user details");
         const data = await response.json();
         setUsers(data.users);
       } catch (err: any) {
         setError(err.message);
       }
     };
-
     fetchUserDetails();
   }, []);
 
   useEffect(() => {
-    setTimeout(() => setLoading(false), 1000); // Simulate loading delay
+    setTimeout(() => setLoading(false), 1000);
   }, []);
 
   if (error) {
     return (
-      <div className="max-w-2xl mx-auto p-4 text-red-600 text-center">
-        Error: {error}
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="p-6 bg-white rounded-lg shadow-lg">
+          <p className="text-red-500 flex items-center gap-2">⚠️ {error}</p>
+        </div>
       </div>
     );
   }
 
   if (loading) {
     return (
-      <div className="h-screen flex justify-center items-center bg-gray-900">
-        {/* Tailwind Loader */}
-        <div className="w-16 h-16 border-4 border-yellow-500 border-solid rounded-full border-t-transparent animate-spin"></div>
+      <div className="min-h-screen flex justify-center items-center bg-gray-50">
+        <div className="w-10 h-10 border-4 border-gray-200 border-t-gray-800 rounded-full animate-spin" />
       </div>
     );
   }
 
-  const sortedUsers = [...users].sort((a, b) => b.quizCount - a.quizCount);
+  const sortedUsers = [...users].sort(
+    (a, b) => (b.totalScore ?? 0) - (a.totalScore ?? 0)
+  );
+
+  const getMedalEmoji = (index: number) => {
+    switch (index) {
+      case 0:
+        return "🏆";
+      case 1:
+        return "🥈";
+      case 2:
+        return "🥉";
+      default:
+        return null;
+    }
+  };
 
   return (
-    <>
-      <div className="w-full min-h-screen bg-gray-900 flex justify-center items-center">
-        <div className="max-w-5xl w-full p-6 bg-gray-900 rounded-lg shadow-md">
-          {/* Flex container to align arrow and heading */}
-          <div className="flex items-center mb-6">
-            <button
-              onClick={() => router.push("/quizPageOne")}
-              className="mr-4 p-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-200 ease-in-out"
-            >
-              {/* Small left arrow icon (using unicode or an SVG icon) */}←
-            </button>
-            <h2 className="text-3xl font-bold text-white text-center flex-grow">
-              Score Board
-            </h2>
-          </div>
-
-          {sortedUsers.length > 0 ? (
-            <ul className="space-y-4">
-              {sortedUsers.map((user) => (
-                <li
-                  key={user._id}
-                  className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 border border-gray-800 rounded-lg bg-gray-800 shadow hover:shadow-lg transition duration-200 ease-in-out"
-                >
-                  <div className="mb-2 md:mb-0">
-                    <h3 className="text-xl font-semibold text-white">
-                      {user.name}
-                    </h3>
-                    <p className="text-gray-400">{user.email}</p>
-                    <p className="mt-2">
-                      <strong
-                        className={
-                          user.isLogin ? "text-green-500" : "text-red-500"
-                        }
-                      >
-                        {user.isLogin ? "Logged In" : "Not Logged In"}
-                      </strong>
-                    </p>
-                  </div>
-                  <div className="text-right w-full md:w-auto">
-                    <p className="mt-2 text-gray-400">
-                      <strong>Quizzes Created:</strong> {user.quizCount}
-                    </p>
-                    <button
-                      onClick={() => router.push(`/totalUsers/${user._id}`)}
-                      className="mt-2 px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition duration-200 ease-in-out"
-                    >
-                      View Details
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-400 text-center">No users found.</p>
-          )}
+    <div className="min-h-screen bg-gray-50 py-12 px-4">
+      <div className="max-w-3xl mx-auto">
+        <div className="flex items-center mb-8">
+          <button
+            onClick={() => router.push("/quizPageOne")}
+            className="p-2 text-gray-600 hover:text-gray-900 transition-colors"
+          >
+            ←
+          </button>
+          <h1 className="text-3xl font-semibold text-gray-900 ml-4">
+            👑 Leaderboard
+          </h1>
         </div>
+
+        {sortedUsers.length > 0 ? (
+          <div className="space-y-4">
+            {sortedUsers.map((user, index) => (
+              <div
+                key={user._id}
+                className="bg-white rounded-lg shadow-sm p-6 transition-all duration-200 hover:shadow-md"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="relative w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                      <span className="text-2xl text-gray-400">👤</span>
+                      {getMedalEmoji(index) && (
+                        <span className="absolute -top-2 -right-2 text-xl">
+                          {getMedalEmoji(index)}
+                        </span>
+                      )}
+                    </div>
+                    <div>
+                      <h2 className="text-lg font-medium text-gray-900">
+                        {user.name}
+                      </h2>
+                      <p className="text-sm text-gray-500">{user.email}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-2xl font-bold text-gray-900">
+                      {user.totalScore ?? 0}
+                    </p>
+                    <p className="text-sm text-gray-500">
+                      {user.quizCount}{" "}
+                      {user.quizCount === 1 ? "quiz" : "quizzes"}
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center justify-between">
+                  <span
+                    className={`text-sm flex items-center gap-1 ${
+                      user.isLogin ? "text-green-500" : "text-gray-400"
+                    }`}
+                  >
+                    <span
+                      className="w-2 h-2 rounded-full inline-block 
+                      ${user.isLogin ? 'bg-green-500' : 'bg-gray-400'}"
+                    ></span>
+                    {user.isLogin ? "Online" : "Offline"}
+                  </span>
+                  <button
+                    onClick={() => router.push(`/totalUsers/${user._id}`)}
+                    className="text-sm text-gray-600 hover:text-gray-900 transition-colors group flex items-center gap-1"
+                  >
+                    View Profile
+                    <span className="group-hover:translate-x-1 transition-transform duration-200">
+                      →
+                    </span>
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12 bg-white rounded-lg shadow-sm">
+            <span className="text-6xl mb-4 block">👤</span>
+            <p className="text-gray-500">No users found</p>
+          </div>
+        )}
       </div>
-    </>
+    </div>
   );
 };
 
