@@ -362,9 +362,9 @@ const QuizManager: React.FC = () => {
                   {/* Logo/Brand */}
                   <div className="flex items-center">
                     <Link href="/" className="flex items-center space-x-2">
-                      <span className="text-xl font-bold text-gray-800 dark:text-white transition-colors">
-                        Quiz Manager
-                      </span>
+                      <h1 className="text-3xl font-bold text-white ml-4">
+                        <span className="text-yellow-400">Quiz</span>Master
+                      </h1>
                     </Link>
                   </div>
 
@@ -377,6 +377,15 @@ const QuizManager: React.FC = () => {
                     >
                       <span className="mr-2">👤</span>
                       <span>{user?.name || "Profile"}</span>
+                    </Link>
+
+                    {/*Create quiz page */}
+                    <Link
+                      href="/createquiz" // Adjust this href to point to your quiz creation route
+                      className="inline-flex items-center px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-all duration-300"
+                    >
+                      <span className="mr-2">📝</span>
+                      <span>Create Quiz</span>
                     </Link>
 
                     {/* Score Board */}
@@ -486,6 +495,14 @@ const QuizManager: React.FC = () => {
                       </Link>
 
                       <Link
+                        href="/createquiz" // Adjust this href to point to your quiz creation route
+                        className="inline-flex items-center px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-all duration-300"
+                      >
+                        <span className="mr-2">📝</span>
+                        <span>Create Quiz</span>
+                      </Link>
+
+                      <Link
                         href="/totalUsers"
                         className="flex items-center px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300"
                         onClick={() => setIsOpen(false)}
@@ -520,141 +537,6 @@ const QuizManager: React.FC = () => {
             </nav>
           </div>
 
-          {/* Create Quiz Form */}
-          <div
-            className={`shadow-sm rounded-lg p-4 sm:p-6 ${
-              darkMode ? "bg-gray-800" : "bg-gray-50"
-            }`}
-          >
-            <h2
-              className={`text-xl sm:text-2xl font-semibold mb-4 sm:mb-6 ${
-                darkMode ? "text-white" : "text-gray-800"
-              }`}
-            >
-              Create New Quiz
-            </h2>
-            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-              <div>
-                <label
-                  htmlFor="title"
-                  className={`block text-sm sm:text-lg font-medium ${
-                    darkMode ? "text-gray-300" : "text-gray-700"
-                  }`}
-                >
-                  Quiz Title
-                </label>
-                <input
-                  type="text"
-                  id="title"
-                  name="title"
-                  value={newQuiz.title}
-                  onChange={handleInputChange}
-                  className={`mt-1 block w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 ${
-                    darkMode
-                      ? "bg-gray-700 text-gray-300 border-gray-600"
-                      : "border-gray-300 text-gray-900"
-                  }`}
-                  placeholder="Enter quiz title"
-                  required
-                />
-              </div>
-
-              {newQuiz.questions.map((question, qIndex) => (
-                <div key={qIndex} className="space-y-4">
-                  <input
-                    type="text"
-                    value={question.questionText}
-                    onChange={(e) =>
-                      handleQuestionChange(
-                        qIndex,
-                        "questionText",
-                        e.target.value
-                      )
-                    }
-                    className={`block w-full px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 ${
-                      darkMode
-                        ? "bg-gray-700 text-gray-300 border-gray-600"
-                        : "border-gray-300 text-gray-900"
-                    }`}
-                    placeholder="Question text"
-                    required
-                  />
-                  {question.options.map((option, oIndex) => (
-                    <div
-                      key={oIndex}
-                      className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-4"
-                    >
-                      <input
-                        type="text"
-                        value={option.text}
-                        onChange={(e) =>
-                          handleOptionChange(
-                            qIndex,
-                            oIndex,
-                            "text",
-                            e.target.value
-                          )
-                        }
-                        className={`flex-grow px-3 py-2 sm:px-4 sm:py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 ${
-                          darkMode
-                            ? "bg-gray-700 text-gray-300 border-gray-600"
-                            : "border-gray-300 text-gray-900"
-                        }`}
-                        placeholder="Option text"
-                        required
-                      />
-                      <label
-                        className={`flex items-center space-x-2 ${
-                          darkMode ? "text-gray-300" : "text-gray-700"
-                        }`}
-                      >
-                        <input
-                          type="checkbox"
-                          checked={option.isCorrect}
-                          onChange={(e) =>
-                            handleOptionChange(
-                              qIndex,
-                              oIndex,
-                              "isCorrect",
-                              e.target.checked
-                            )
-                          }
-                          className="h-4 w-4 text-yellow-600 border-gray-300 rounded focus:ring-yellow-500"
-                        />
-                        <span>Correct</span>
-                      </label>
-                    </div>
-                  ))}
-                  <button
-                    type="button"
-                    onClick={() => removeQuestion(qIndex)} // Call the remove function
-                    className="text-gray-400 hover:bg-gray-900 transition-colors duration-300 text-md font-semibold bg-slate-700 px-2 py-2 rounded-lg"
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-
-              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
-                <button
-                  type="button"
-                  onClick={addQuestion}
-                  className="bg-green-600 text-white font-medium py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400 hover:bg-green-700"
-                >
-                  Add Question
-                </button>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="bg-yellow-500 text-black font-medium py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-400 hover:bg-yellow-600"
-                >
-                  {loading ? "Creating..." : "Create Quiz"}
-                </button>
-              </div>
-            </form>
-            {error && <p className="mt-4 text-red-500">{error}</p>}
-          </div>
           {/* Display Quizzes */}
           <div className="max-w-full sm:max-w-3xl mx-auto px-2 sm:px-0">
             <h2

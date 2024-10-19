@@ -82,7 +82,7 @@ const UserDetails = () => {
               ←
             </button>
             <h1 className="text-3xl font-bold text-white ml-4">
-              <span className="text-yellow-400">Quiz</span>Master
+              <span className="text-yellow-400">Quiz</span>ScoreCard
             </h1>
           </div>
           <h2 className="text-xl font-semibold text-white flex items-center gap-2">
