@@ -17,6 +17,7 @@ import {
   title,
   filter,
   footer,
+  strong,
 } from "framer-motion/client";
 import { useRouter } from "next/navigation";
 import { type } from "os";
@@ -341,6 +342,13 @@ const QuizManager: React.FC = () => {
     }));
   };
 
+  const [sidebarOpen, setSidebarOpen] = useState(false); // State for sidebar
+
+  // Function to toggle sidebar visibility
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
   return (
     <>
       <div
@@ -351,62 +359,137 @@ const QuizManager: React.FC = () => {
             darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
           }`}
         >
-          <div className="flex flex-col sm:flex-row justify-between items-center w-full mb-4">
-            <h1 className="text-2xl sm:text-3xl font-extrabold mb-4 sm:mb-0">
-              Quiz Manager
-            </h1>
+          <div className={`${darkMode ? "dark" : ""} w-full`}>
+            {/* Page Wrapper */}
+            <div className="relative flex flex-col sm:flex-row justify-between items-center w-full mb-4 dark:bg-gray-900 dark:text-white transition duration-300">
+              {/* Header Section */}
+              <div className="flex justify-between w-full items-center">
+                {/* Quiz Manager Title */}
+                <h1 className="text-2xl sm:text-3xl font-extrabold mb-4 sm:mb-0">
+                  Quiz Manager
+                </h1>
 
-            <div className="flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-5">
-              {/* Profile Section */}
-              <button
-                onClick={handleProfileClick}
-                className="flex items-center space-x-2 bg-violet-700 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-violet-500"
-              >
-                <img
-                  src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
-                  alt="Profile"
-                  className="w-5 h-5"
-                />
-                <span className="text-sm sm:text-base">
-                  {user?.name || "Profile"}
-                </span>
-              </button>
+                {/* Menu Button for Mobile */}
+                <button
+                  onClick={toggleSidebar}
+                  className="sm:hidden flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
+                >
+                  <span className="text-sm">Menu</span>
+                </button>
+              </div>
 
-              <button
-                onClick={() => router.push("/totalUsers")}
-                className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
-              >
-                <span className="text-sm sm:text-base">🙏 Score Board</span>
-              </button>
-
-              <button
-                onClick={() => router.push("/")}
-                className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
-              >
-                <span className="text-sm sm:text-base">
-                  <strong>/</strong>
-                </span>
-              </button>
-
-              {/* Dark Mode Toggle Button */}
-              <button
-                onClick={toggleDarkMode}
-                className={`flex items-center justify-center w-28 h-9 rounded-lg text-sm transform transition-all duration-300 ease-in-out ${
-                  darkMode
-                    ? "bg-gray-700 hover:bg-gray-600 text-white"
-                    : "bg-gray-300 hover:bg-gray-300 text-gray-800"
-                } focus:ring-gray-500 shadow-md`}
-              >
-                <div className="flex items-center space-x-1">
-                  <span className="text-base">{darkMode ? "☀️" : "🌚"}</span>
-                  <span className="font-medium">
-                    {darkMode ? "Light" : "Dark"}
+              {/* Main Controls (for larger screens) */}
+              <div className="hidden sm:flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-5">
+                <button
+                  onClick={handleProfileClick}
+                  className="flex items-center space-x-2 bg-violet-700 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-violet-500"
+                >
+                  <img
+                    src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
+                    alt="Profile"
+                    className="w-5 h-5"
+                  />
+                  <span className="text-sm sm:text-base">
+                    {user?.name || "Profile"}
                   </span>
+                </button>
+
+                <button
+                  onClick={() => router.push("/totalUsers")}
+                  className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
+                >
+                  <span className="text-sm sm:text-base">🙏 Score Board</span>
+                </button>
+
+                <button
+                  onClick={() => router.push("/")}
+                  className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
+                >
+                  <span className="text-sm sm:text-base">
+                    <strong>/</strong>
+                  </span>
+                </button>
+
+                {/* Dark Mode Toggle Button */}
+                <button
+                  onClick={toggleDarkMode}
+                  className={`flex items-center justify-center w-28 h-9 rounded-lg text-sm transform transition-all duration-300 ease-in-out ${
+                    darkMode
+                      ? "bg-gray-700 hover:bg-gray-600 text-white"
+                      : "bg-gray-300 hover:bg-gray-300 text-gray-800"
+                  } focus:ring-gray-500 shadow-md`}
+                >
+                  <div className="flex items-center space-x-1">
+                    <span className="text-base">{darkMode ? "☀️" : "🌚"}</span>
+                    <span className="font-medium">
+                      {darkMode ? "Light" : "Dark"}
+                    </span>
+                  </div>
+                </button>
+              </div>
+
+              {/* Sidebar (Mobile Only) */}
+              <div
+                className={`fixed inset-0 transform ${
+                  sidebarOpen ? "translate-x-0" : "-translate-x-full"
+                } transition-transform duration-300 ease-in-out z-50 bg-gray-800 sm:hidden`}
+              >
+                <div className="p-4 flex flex-col space-y-4 text-white">
+                  <button onClick={toggleSidebar} className="self-end text-lg">
+                    ✕
+                  </button>
+
+                  <button
+                    onClick={handleProfileClick}
+                    className="flex items-center space-x-2 bg-violet-700 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-violet-500"
+                  >
+                    <img
+                      src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
+                      alt="Profile"
+                      className="w-5 h-5"
+                    />
+                    <span className="text-sm sm:text-base">
+                      {user?.name || "Profile"}
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={() => router.push("/totalUsers")}
+                    className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
+                  >
+                    <span className="text-sm sm:text-base">🙏 Score Board</span>
+                  </button>
+
+                  <button
+                    onClick={() => router.push("/")}
+                    className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
+                  >
+                    <span className="text-sm sm:text-base">
+                      <strong>/</strong>
+                    </span>
+                  </button>
+
+                  <button
+                    onClick={toggleDarkMode}
+                    className={`flex items-center justify-center w-28 h-9 rounded-lg text-sm transform transition-all duration-300 ease-in-out ${
+                      darkMode
+                        ? "bg-gray-700 hover:bg-gray-600 text-white"
+                        : "bg-gray-300 hover:bg-gray-300 text-gray-800"
+                    } focus:ring-gray-500 shadow-md`}
+                  >
+                    <div className="flex items-center space-x-1">
+                      <span className="text-base">
+                        {darkMode ? "☀️" : "🌚"}
+                      </span>
+                      <span className="font-medium">
+                        {darkMode ? "Light" : "Dark"}
+                      </span>
+                    </div>
+                  </button>
                 </div>
-              </button>
+              </div>
             </div>
           </div>
-
           {/* Create Quiz Form */}
           <div
             className={`shadow-sm rounded-lg p-4 sm:p-6 ${
@@ -542,7 +625,6 @@ const QuizManager: React.FC = () => {
             </form>
             {error && <p className="mt-4 text-red-500">{error}</p>}
           </div>
-
           {/* Display Quizzes */}
           <div className="max-w-full sm:max-w-3xl mx-auto px-2 sm:px-0">
             <h2
