@@ -18,6 +18,7 @@ import {
   filter,
   footer,
   strong,
+  nav,
 } from "framer-motion/client";
 import { useRouter } from "next/navigation";
 import { type } from "os";
@@ -26,6 +27,7 @@ import { stringify } from "querystring";
 
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { SkeletonLoader } from "../components/skeleton";
+import Link from "next/link";
 
 interface Option {
   text: string;
@@ -342,13 +344,7 @@ const QuizManager: React.FC = () => {
     }));
   };
 
-  const [sidebarOpen, setSidebarOpen] = useState(false); // State for sidebar
-
-  // Function to toggle sidebar visibility
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <>
       <div
@@ -359,137 +355,171 @@ const QuizManager: React.FC = () => {
             darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-900"
           }`}
         >
-          <div className={`${darkMode ? "dark" : ""} w-full`}>
-            {/* Page Wrapper */}
-            <div className="relative flex flex-col sm:flex-row justify-between items-center w-full mb-4 dark:bg-gray-900 dark:text-white transition duration-300">
-              {/* Header Section */}
-              <div className="flex justify-between w-full items-center">
-                {/* Quiz Manager Title */}
-                <h1 className="text-2xl sm:text-3xl font-extrabold mb-4 sm:mb-0">
-                  Quiz Manager
-                </h1>
-
-                {/* Menu Button for Mobile */}
-                <button
-                  onClick={toggleSidebar}
-                  className="sm:hidden flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
-                >
-                  <span className="text-sm">Menu</span>
-                </button>
-              </div>
-
-              {/* Main Controls (for larger screens) */}
-              <div className="hidden sm:flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-5">
-                <button
-                  onClick={handleProfileClick}
-                  className="flex items-center space-x-2 bg-violet-700 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-violet-500"
-                >
-                  <img
-                    src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
-                    alt="Profile"
-                    className="w-5 h-5"
-                  />
-                  <span className="text-sm sm:text-base">
-                    {user?.name || "Profile"}
-                  </span>
-                </button>
-
-                <button
-                  onClick={() => router.push("/totalUsers")}
-                  className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
-                >
-                  <span className="text-sm sm:text-base">🙏 Score Board</span>
-                </button>
-
-                <button
-                  onClick={() => router.push("/")}
-                  className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
-                >
-                  <span className="text-sm sm:text-base">
-                    <strong>/</strong>
-                  </span>
-                </button>
-
-                {/* Dark Mode Toggle Button */}
-                <button
-                  onClick={toggleDarkMode}
-                  className={`flex items-center justify-center w-28 h-9 rounded-lg text-sm transform transition-all duration-300 ease-in-out ${
-                    darkMode
-                      ? "bg-gray-700 hover:bg-gray-600 text-white"
-                      : "bg-gray-300 hover:bg-gray-300 text-gray-800"
-                  } focus:ring-gray-500 shadow-md`}
-                >
-                  <div className="flex items-center space-x-1">
-                    <span className="text-base">{darkMode ? "☀️" : "🌚"}</span>
-                    <span className="font-medium">
-                      {darkMode ? "Light" : "Dark"}
-                    </span>
+          <div className={`${darkMode ? "dark" : ""}`}>
+            <nav className="sticky top-0 z-50 w-full bg-white dark:bg-gray-800 shadow-md transition-colors duration-300">
+              <div className="max-w-7xl mx-auto px-4">
+                <div className="flex justify-between h-16">
+                  {/* Logo/Brand */}
+                  <div className="flex items-center">
+                    <Link href="/" className="flex items-center space-x-2">
+                      <span className="text-xl font-bold text-gray-800 dark:text-white transition-colors">
+                        Quiz Manager
+                      </span>
+                    </Link>
                   </div>
-                </button>
-              </div>
 
-              {/* Sidebar (Mobile Only) */}
-              <div
-                className={`fixed inset-0 transform ${
-                  sidebarOpen ? "translate-x-0" : "-translate-x-full"
-                } transition-transform duration-300 ease-in-out z-50 bg-gray-800 sm:hidden`}
-              >
-                <div className="p-4 flex flex-col space-y-4 text-white">
-                  <button onClick={toggleSidebar} className="self-end text-lg">
-                    ✕
-                  </button>
+                  {/* Desktop Navigation */}
+                  <div className="hidden md:flex items-center space-x-4">
+                    {/* Profile Button */}
+                    <Link
+                      href="/profile"
+                      className="inline-flex items-center px-4 py-2 rounded-lg bg-violet-600 text-white hover:bg-violet-700 transition-all duration-300"
+                    >
+                      <span className="mr-2">👤</span>
+                      <span>{user?.name || "Profile"}</span>
+                    </Link>
 
-                  <button
-                    onClick={handleProfileClick}
-                    className="flex items-center space-x-2 bg-violet-700 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-violet-500"
-                  >
-                    <img
-                      src="https://img.icons8.com/ios-filled/50/FFFFFF/user.png"
-                      alt="Profile"
-                      className="w-5 h-5"
-                    />
-                    <span className="text-sm sm:text-base">
-                      {user?.name || "Profile"}
-                    </span>
-                  </button>
+                    {/* Score Board */}
+                    <Link
+                      href="/totalUsers"
+                      className="inline-flex items-center px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300"
+                    >
+                      <span className="mr-2">🏆</span>
+                      <span>Score Board</span>
+                    </Link>
 
-                  <button
-                    onClick={() => router.push("/totalUsers")}
-                    className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
-                  >
-                    <span className="text-sm sm:text-base">🙏 Score Board</span>
-                  </button>
+                    {/* Home */}
+                    <Link
+                      href="/"
+                      className="inline-flex items-center px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300"
+                    >
+                      <span className="mr-2">🏠</span>
+                      <span>Home</span>
+                    </Link>
 
-                  <button
-                    onClick={() => router.push("/")}
-                    className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300 hover:bg-blue-500"
-                  >
-                    <span className="text-sm sm:text-base">
-                      <strong>/</strong>
-                    </span>
-                  </button>
-
-                  <button
-                    onClick={toggleDarkMode}
-                    className={`flex items-center justify-center w-28 h-9 rounded-lg text-sm transform transition-all duration-300 ease-in-out ${
-                      darkMode
-                        ? "bg-gray-700 hover:bg-gray-600 text-white"
-                        : "bg-gray-300 hover:bg-gray-300 text-gray-800"
-                    } focus:ring-gray-500 shadow-md`}
-                  >
-                    <div className="flex items-center space-x-1">
-                      <span className="text-base">
-                        {darkMode ? "☀️" : "🌚"}
+                    {/* Dark Mode Toggle */}
+                    <button
+                      onClick={toggleDarkMode}
+                      className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300 group relative"
+                      aria-label="Toggle dark mode"
+                    >
+                      <span className="text-xl block transition-transform duration-300 group-hover:scale-110">
+                        {darkMode ? "☀️" : "🌙"}
                       </span>
-                      <span className="font-medium">
-                        {darkMode ? "Light" : "Dark"}
+                      <span className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 px-2 py-1 bg-gray-800 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
+                        {darkMode
+                          ? "Switch to Light Mode"
+                          : "Switch to Dark Mode"}
                       </span>
-                    </div>
-                  </button>
+                    </button>
+                  </div>
+
+                  {/* Mobile Menu Button */}
+                  <div className="md:hidden flex items-center">
+                    <button
+                      onClick={() => setIsOpen(!isOpen)}
+                      className="p-2 text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-300"
+                    >
+                      <span
+                        className={`block w-6 h-px bg-current transition-all duration-300 ${
+                          isOpen
+                            ? "transform rotate-45 translate-y-1.5"
+                            : "mb-1"
+                        }`}
+                      ></span>
+                      <span
+                        className={`block w-6 h-px bg-current transition-all duration-300 ${
+                          isOpen ? "opacity-0" : "mb-1"
+                        }`}
+                      ></span>
+                      <span
+                        className={`block w-6 h-px bg-current transition-all duration-300 ${
+                          isOpen ? "transform -rotate-45 -translate-y-1.5" : ""
+                        }`}
+                      ></span>
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
+
+              {/* Mobile Menu */}
+              <div
+                className={`
+          md:hidden fixed inset-0 z-50 bg-gray-800/50 backdrop-blur-sm transition-all duration-300
+          ${
+            isOpen
+              ? "opacity-100 pointer-events-auto"
+              : "opacity-0 pointer-events-none"
+          }
+        `}
+              >
+                <div
+                  className={`
+              fixed inset-y-0 left-0 w-64 bg-white dark:bg-gray-800 shadow-xl 
+              transform transition-all duration-300 ease-in-out
+              ${isOpen ? "translate-x-0" : "-translate-x-full"}
+            `}
+                >
+                  {/* Mobile Menu Content */}
+                  <div className="flex flex-col p-4">
+                    <div className="flex justify-between items-center mb-8">
+                      <span className="text-lg font-semibold text-gray-800 dark:text-white transition-colors">
+                        Menu
+                      </span>
+                      <button
+                        onClick={() => setIsOpen(false)}
+                        className="p-2 text-gray-600 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-all duration-300"
+                      >
+                        ✕
+                      </button>
+                    </div>
+
+                    {/* Mobile Menu Items */}
+                    <div className="flex flex-col space-y-4">
+                      <Link
+                        href="/profile"
+                        className="flex items-center px-4 py-2 rounded-lg bg-violet-600 text-white hover:bg-violet-700 transition-all duration-300"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <span className="mr-2">👤</span>
+                        <span>{user?.name || "Profile"}</span>
+                      </Link>
+
+                      <Link
+                        href="/totalUsers"
+                        className="flex items-center px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <span className="mr-2">🏆</span>
+                        <span>Score Board</span>
+                      </Link>
+
+                      <Link
+                        href="/"
+                        className="flex items-center px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <span className="mr-2">🏠</span>
+                        <span>Home</span>
+                      </Link>
+
+                      <button
+                        onClick={() => {
+                          toggleDarkMode();
+                          setIsOpen(false);
+                        }}
+                        className="flex items-center px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 transition-all duration-300"
+                      >
+                        <span className="mr-2">{darkMode ? "☀️" : "🌙"}</span>
+                        <span>{darkMode ? "Light Mode" : "Dark Mode"}</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </nav>
           </div>
+
           {/* Create Quiz Form */}
           <div
             className={`shadow-sm rounded-lg p-4 sm:p-6 ${
