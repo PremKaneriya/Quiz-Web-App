@@ -1,17 +1,24 @@
 "use client";
-import React, {
-  useState,
-  useEffect,
-  FormEvent,
-  ChangeEvent,
-} from "react";
+import React, { useState, useEffect, FormEvent, ChangeEvent } from "react";
 import { useRouter } from "next/navigation";
 import { AiOutlineArrowLeft } from "react-icons/ai"; // Adjust based on your choice of icon
 import { ok } from "assert";
-import { body } from "framer-motion/client";
+import {
+  body,
+  button,
+  div,
+  form,
+  h3,
+  input,
+  label,
+  map,
+  span,
+  text,
+} from "framer-motion/client";
 import { headers } from "next/headers";
 import { title } from "process";
 import { stringify } from "querystring";
+import { type } from "os";
 
 interface Option {
   text: string;
@@ -246,7 +253,7 @@ const QuizCreation = () => {
       }
 
       if (!response.ok)
-        throw new Error("Failed to create quiz or please login");
+        throw new Error("Failed to create quiz, please login or signup");
 
       await fetchQuizzes();
       setNewQuiz({ _id: "", title: "", questions: [], createdBy: "" });
@@ -321,7 +328,7 @@ const QuizCreation = () => {
             {/* Back Button */}
             <button
               type="button"
-              className="absolute top-4 left-4 p-2 bg-gray-100 dark:bg-gray-700 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition"
+              className="absolute top-4 left-4 p-2 bg-yellow-500 dark:bg-yellow-500 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition"
               onClick={() => router.push("/quizPageOne")} // Navigate back to home
             >
               <AiOutlineArrowLeft className="mr-2" />
@@ -345,7 +352,7 @@ const QuizCreation = () => {
                   name="title"
                   value={newQuiz.title}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  className="w-full max-w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                   placeholder="Enter quiz title"
                   required
                 />
@@ -380,7 +387,7 @@ const QuizCreation = () => {
                           e.target.value
                         )
                       }
-                      className="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                      className="w-full max-w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                       placeholder="Enter question text"
                       required
                     />
@@ -389,7 +396,7 @@ const QuizCreation = () => {
                       {question.options.map((option, oIndex) => (
                         <div
                           key={oIndex}
-                          className="flex items-center space-x-3"
+                          className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-3"
                         >
                           <input
                             type="text"
@@ -402,7 +409,7 @@ const QuizCreation = () => {
                                 e.target.value
                               )
                             }
-                            className="flex-1 px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                            className="flex-1 max-w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
                             placeholder={`Option ${oIndex + 1}`}
                             required
                           />
@@ -410,14 +417,29 @@ const QuizCreation = () => {
                             <input
                               type="checkbox"
                               checked={option.isCorrect}
-                              onChange={(e) =>
+                              onChange={(e) => {
+                                const isChecked = e.target.checked;
                                 handleOptionChange(
                                   qIndex,
                                   oIndex,
                                   "isCorrect",
-                                  e.target.checked
-                                )
-                              }
+                                  isChecked
+                                );
+
+                                // Uncheck all other checkboxes in the same question
+                                if (isChecked) {
+                                  question.options.forEach((_, idx) => {
+                                    if (idx !== oIndex) {
+                                      handleOptionChange(
+                                        qIndex,
+                                        idx,
+                                        "isCorrect",
+                                        false
+                                      );
+                                    }
+                                  });
+                                }
+                              }}
                               className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500 transition"
                             />
                             <span className="text-sm text-gray-700 dark:text-gray-300">
