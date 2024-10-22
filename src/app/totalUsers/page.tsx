@@ -1,6 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import { ArrowLeft, Trophy, Medal, Award } from "lucide-react";
 
 interface User {
   _id: string;
@@ -37,8 +38,8 @@ const UserDetails = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#1a1f2e]">
-        <div className="p-6 bg-[#242937] rounded-lg shadow-xl">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="p-6 bg-white rounded-xl shadow-sm border border-red-100">
           <p className="text-red-400 flex items-center gap-2">⚠️ {error}</p>
         </div>
       </div>
@@ -47,8 +48,8 @@ const UserDetails = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center bg-[#1a1f2e]">
-        <div className="w-10 h-10 border-4 border-gray-700 border-t-yellow-400 rounded-full animate-spin" />
+      <div className="min-h-screen flex justify-center items-center bg-slate-50">
+        <div className="w-8 h-8 border-3 border-slate-200 border-t-slate-800 rounded-full animate-spin" />
       </div>
     );
   }
@@ -57,92 +58,110 @@ const UserDetails = () => {
     (a, b) => (b.totalScore ?? 0) - (a.totalScore ?? 0)
   );
 
-  const getMedalEmoji = (index: number) => {
+  const getRankIcon = (index: number) => {
     switch (index) {
       case 0:
-        return "🏆";
+        return <Trophy className="w-5 h-5 text-yellow-500" />;
       case 1:
-        return "🥈";
+        return <Medal className="w-5 h-5 text-slate-400" />;
       case 2:
-        return "🥉";
+        return <Award className="w-5 h-5 text-amber-700" />;
       default:
         return null;
     }
   };
 
+  const getPositionStyle = (index: number) => {
+    switch (index) {
+      case 0:
+        return "bg-yellow-50 border-yellow-100";
+      case 1:
+        return "bg-slate-50 border-slate-100";
+      case 2:
+        return "bg-amber-50 border-amber-100";
+      default:
+        return "bg-white border-slate-100";
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#1a1f2e] py-12 px-4">
-      <div className="max-w-3xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center">
+    <div className="min-h-screen bg-slate-50 py-8 px-4">
+      <div className="max-w-2xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-12">
+          <div className="flex items-center gap-4">
             <button
               onClick={() => router.push("/quizPageOne")}
-              className="p-2 text-gray-400 hover:text-yellow-400 transition-colors"
+              className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
             >
-              ←
+              <ArrowLeft className="w-5 h-5 text-slate-600" />
             </button>
-            <h1 className="text-3xl font-bold text-white ml-4">
-              <span className="text-yellow-400">Quiz</span>ScoreCard
-            </h1>
+            <div>
+              <h1 className="text-2xl font-semibold text-slate-800">
+                Leaderboard
+              </h1>
+              <p className="text-sm text-slate-500 mt-1">
+                {users.length} participants
+              </p>
+            </div>
           </div>
-          <h2 className="text-xl font-semibold text-white flex items-center gap-2">
-            👑 Leaderboard
-          </h2>
         </div>
 
+        {/* Leaderboard */}
         {sortedUsers.length > 0 ? (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {sortedUsers.map((user, index) => (
               <div
                 key={user._id}
-                className="bg-[#242937] rounded-lg p-6 transition-all duration-200 hover:bg-[#2a303f] border border-gray-800"
+                className={`rounded-xl p-4 border transition-all duration-200 hover:shadow-md ${getPositionStyle(
+                  index
+                )}`}
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="relative w-12 h-12 bg-[#1a1f2e] rounded-full flex items-center justify-center">
-                      <span className="text-2xl">👤</span>
-                      {getMedalEmoji(index) && (
-                        <span className="absolute -top-2 -right-2 text-xl">
-                          {getMedalEmoji(index)}
+                    <div className="w-8 h-8 flex items-center justify-center rounded-full bg-white border border-slate-100">
+                      {getRankIcon(index) || (
+                        <span className="text-sm font-medium text-slate-600">
+                          {index + 1}
                         </span>
                       )}
                     </div>
                     <div>
-                      <h2 className="text-lg font-medium text-white">
+                      <h2 className="text-slate-800 font-medium">
                         {user.name}
                       </h2>
-                      <p className="text-gray-400">{user.email}</p>
+                      <p className="text-xs text-slate-500">{user.email}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="text-2xl font-bold text-yellow-400">
+                    <p className="text-lg font-semibold text-slate-800">
                       {user.totalScore ?? 0}
                     </p>
-                    <p className="text-gray-400">
+                    <p className="text-xs text-slate-500">
                       {user.quizCount}{" "}
                       {user.quizCount === 1 ? "quiz" : "quizzes"}
                     </p>
                   </div>
                 </div>
-                <div className="mt-4 flex items-center justify-between">
+                <div className="mt-3 flex items-center justify-between">
                   <span
-                    className={`text-sm flex items-center gap-1 ${
-                      user.isLogin ? "text-green-400" : "text-gray-500"
+                    className={`text-xs flex items-center gap-1 ${
+                      user.isLogin ? "text-emerald-600" : "text-slate-400"
                     }`}
                   >
                     <span
-                      className={`w-2 h-2 rounded-full inline-block ${
-                        user.isLogin ? "bg-green-400" : "bg-gray-500"
+                      className={`w-1.5 h-1.5 rounded-full ${
+                        user.isLogin ? "bg-emerald-500" : "bg-slate-300"
                       }`}
-                    ></span>
-                    {user.isLogin ? "Online" : "Offline"}
+                    />
+                    {user.isLogin ? "Verified" : "Not Verified"}
                   </span>
                   <button
                     onClick={() => router.push(`/totalUsers/${user._id}`)}
-                    className="text-sm text-gray-400 hover:text-yellow-400 transition-colors group flex items-center gap-1"
+                    className="text-xs text-slate-600 hover:text-slate-800 transition-colors group flex items-center gap-1"
                   >
-                    View Profile
-                    <span className="group-hover:translate-x-1 transition-transform duration-200">
+                    Details
+                    <span className="group-hover:translate-x-0.5 transition-transform duration-200">
                       →
                     </span>
                   </button>
@@ -151,9 +170,11 @@ const UserDetails = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-12 bg-[#242937] rounded-lg border border-gray-800">
-            <span className="text-6xl mb-4 block">👤</span>
-            <p className="text-gray-400">No users found</p>
+          <div className="text-center py-12 bg-white rounded-xl border border-slate-100">
+            <div className="w-12 h-12 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Trophy className="w-6 h-6 text-slate-400" />
+            </div>
+            <p className="text-slate-500">No participants yet</p>
           </div>
         )}
       </div>

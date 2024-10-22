@@ -1,6 +1,7 @@
-'use client';
+"use client";
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { ArrowLeft, Trophy, User } from "lucide-react";
 
 interface User {
   name: string;
@@ -45,21 +46,21 @@ const UserDetailPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center bg-[#1a1f2e]">
-        <div className="w-10 h-10 border-4 border-gray-700 border-t-yellow-400 rounded-full animate-spin" />
+      <div className="min-h-screen flex justify-center items-center bg-slate-50">
+        <div className="w-8 h-8 border-3 border-slate-200 border-t-slate-800 rounded-full animate-spin" />
       </div>
     );
   }
 
   if (error || !user) {
     return (
-      <div className="min-h-screen flex justify-center items-center bg-[#1a1f2e]">
-        <div className="p-6 bg-[#242937] rounded-lg shadow-xl border border-gray-800 text-center">
+      <div className="min-h-screen flex justify-center items-center bg-slate-50">
+        <div className="p-6 bg-white rounded-xl shadow-sm border border-red-100 text-center">
           <span className="text-4xl mb-4 block">😕</span>
-          <p className="text-gray-400">{error || "User not found"}</p>
+          <p className="text-red-400">{error || "User not found"}</p>
           <button
             onClick={() => router.back()}
-            className="mt-4 px-4 py-2 bg-[#1a1f2e] text-gray-400 rounded-lg hover:text-yellow-400 transition-colors"
+            className="mt-4 px-4 py-2 bg-slate-50 text-slate-600 rounded-lg hover:bg-slate-100 transition-colors"
           >
             Go Back
           </button>
@@ -69,38 +70,50 @@ const UserDetailPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#1a1f2e] py-12 px-4">
+    <div className="min-h-screen bg-slate-50 py-8 px-4">
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center">
+        <div className="flex items-center justify-between mb-12">
+          <div className="flex items-center gap-4">
             <button
               onClick={() => router.back()}
-              className="p-2 text-gray-400 hover:text-yellow-400 transition-colors group"
+              className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
             >
-              <span className="text-xl group-hover:-translate-x-1 inline-block transition-transform">
-                ←
-              </span>
+              <ArrowLeft className="w-5 h-5 text-slate-600" />
             </button>
-            <h1 className="text-3xl font-bold text-white ml-4">
-              <span className="text-yellow-400">Quiz</span>Master
-            </h1>
+            <div>
+              <h1 className="text-2xl font-semibold text-slate-800">
+                User Profile
+              </h1>
+              <p className="text-sm text-slate-500 mt-1">{user.email}</p>
+            </div>
           </div>
         </div>
 
         {/* Main Content */}
-        <div className="bg-[#242937] rounded-xl shadow-xl border border-gray-800 overflow-hidden">
+        <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
           {/* User Header */}
-          <div className="p-6 border-b border-gray-800">
+          <div className="p-6 border-b border-slate-100">
             <div className="flex items-center gap-4">
-              <div className="w-16 h-16 bg-[#1a1f2e] rounded-full flex items-center justify-center">
-                <span className="text-3xl">👤</span>
+              <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center">
+                <User className="w-8 h-8 text-slate-400" />
               </div>
               <div>
-                <h2 className="text-2xl font-semibold text-white">
+                <h2 className="text-2xl font-semibold text-slate-800">
                   {user.name}
                 </h2>
-                <p className="text-gray-400">{user.email}</p>
+                <span
+                  className={`text-sm flex items-center gap-1 mt-1 ${
+                    user.isLogin ? "text-emerald-600" : "text-slate-400"
+                  }`}
+                >
+                  <span
+                    className={`w-1.5 h-1.5 rounded-full ${
+                      user.isLogin ? "bg-emerald-500" : "bg-slate-300"
+                    }`}
+                  />
+                  {user.isLogin ? "Verified" : "Not Verified"}
+                </span>
               </div>
             </div>
           </div>
@@ -108,35 +121,23 @@ const UserDetailPage = () => {
           {/* Stats Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
             <div className="space-y-6">
-              {/* Status */}
-              <div className="flex items-center justify-between">
-                <span className="text-gray-400">Status</span>
-                <span
-                  className={`flex items-center gap-2 ${
-                    user.isLogin ? "text-green-400" : "text-gray-500"
-                  }`}
-                >
-                  <span
-                    className={`w-2 h-2 rounded-full inline-block ${
-                      user.isLogin ? "bg-green-400" : "bg-gray-500"
-                    }`}
-                  ></span>
-                  {user.isLogin ? "Online" : "Offline"}
-                </span>
-              </div>
-
               {/* Score */}
               <div className="flex items-center justify-between">
-                <span className="text-gray-400">Total Score</span>
-                <span className="text-xl font-semibold text-yellow-400">
-                  {user.totalScore} 🏆
-                </span>
+                <span className="text-slate-500">Total Score</span>
+                <div className="flex items-center gap-2">
+                  <Trophy className="w-5 h-5 text-yellow-500" />
+                  <span className="text-xl font-semibold text-slate-800">
+                    {user.totalScore}
+                  </span>
+                </div>
               </div>
 
               {/* Quiz Count */}
               <div className="flex items-center justify-between">
-                <span className="text-gray-400">Quizzes Created</span>
-                <span className="text-white">{user.quizCount} 📝</span>
+                <span className="text-slate-500">Quizzes Created</span>
+                <span className="text-slate-800">
+                  {user.quizCount} {user.quizCount === 1 ? "quiz" : "quizzes"}
+                </span>
               </div>
             </div>
 
@@ -144,14 +145,14 @@ const UserDetailPage = () => {
               {/* Dates */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-gray-400">Member Since</span>
-                  <span className="text-white">
+                  <span className="text-slate-500">Member Since</span>
+                  <span className="text-slate-800">
                     {new Date(user.createdAt).toLocaleDateString()}
                   </span>
                 </div>
                 <div className="flex items-center justify-between">
-                  <span className="text-gray-400">Last Updated</span>
-                  <span className="text-white">
+                  <span className="text-slate-500">Last Updated</span>
+                  <span className="text-slate-800">
                     {new Date(user.updatedAt).toLocaleDateString()}
                   </span>
                 </div>

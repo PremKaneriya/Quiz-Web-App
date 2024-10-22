@@ -49,15 +49,21 @@ export default function Login() {
   };
 
   return (
-  <div className="flex items-center justify-center min-h-screen bg-gray-900 px-4 sm:px-0">
+    <div className="flex items-center justify-center min-h-screen bg-gray-900 px-4 sm:px-0">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-xl p-6 sm:p-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-100 mb-6 sm:mb-8">
+        <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-100 mb-2 sm:mb-4">
           Welcome Back
         </h1>
+        <p className="text-center text-sm text-gray-400 mb-4">
+          Login to get verified
+        </p>
         <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-300">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-300"
+            >
               Email Address
             </label>
             <input
@@ -72,7 +78,10 @@ export default function Login() {
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-300">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-300"
+            >
               Password
             </label>
             <input
@@ -87,7 +96,10 @@ export default function Login() {
             />
           </div>
           <div className="text-right">
-            <a href="#" className="text-sm text-yellow-400 hover:text-yellow-300">
+            <a
+              href="#"
+              className="text-sm text-yellow-400 hover:text-yellow-300"
+            >
               Forgot password?
             </a>
           </div>
@@ -104,8 +116,11 @@ export default function Login() {
         )}
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-400">
-            Don't have an account?{' '}
-            <Link href="/signup" className="font-medium text-yellow-400 hover:text-yellow-300">
+            Don't have an account?{" "}
+            <Link
+              href="/signup"
+              className="font-medium text-yellow-400 hover:text-yellow-300"
+            >
               Sign up
             </Link>
           </p>
