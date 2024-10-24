@@ -8,6 +8,7 @@ import {
   button,
   div,
   form,
+  h1,
   h3,
   input,
   label,
@@ -19,6 +20,7 @@ import { headers } from "next/headers";
 import { title } from "process";
 import { stringify } from "querystring";
 import { type } from "os";
+import { ArrowLeft } from "lucide-react";
 
 interface Option {
   text: string;
@@ -321,28 +323,34 @@ const QuizCreation = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-      <div className="max-w-3xl mx-auto px-6 py-12">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md transition-colors duration-300">
-          <div className="p-6 relative">
-            {/* Back Button */}
+    <div className="min-h-screen bg-slate-50 py-8 px-4">
+      <div className="max-w-2xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-12">
+          <div className="flex items-center gap-4">
             <button
-              type="button"
-              className="absolute top-4 left-4 p-2 bg-yellow-500 dark:bg-yellow-500 rounded-full hover:bg-gray-200 dark:hover:bg-gray-600 transition"
-              onClick={() => router.push("/quizPageOne")} // Navigate back to home
+              onClick={() => router.push("/quizPageOne")}
+              className="p-2 hover:bg-slate-100 rounded-lg transition-colors"
             >
-              <AiOutlineArrowLeft className="mr-2" />
+              <ArrowLeft className="w-5 h-5 text-slate-600" />
             </button>
+            <div>
+              <h1 className="text-2xl font-semibold text-slate-800">
+                Create New Quiz
+              </h1>
+            </div>
+          </div>
+        </div>
 
-            <h1 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-6 text-center">
-              Create New Quiz
-            </h1>
-
-            <form onSubmit={handleSubmit} className="space-y-6">
+        {/* Main Content */}
+        <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+          <form onSubmit={handleSubmit} className="p-6">
+            <div className="space-y-6">
+              {/* Quiz Title */}
               <div>
                 <label
                   htmlFor="title"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  className="block text-sm font-medium text-slate-600 mb-2"
                 >
                   Quiz Title
                 </label>
@@ -352,26 +360,27 @@ const QuizCreation = () => {
                   name="title"
                   value={newQuiz.title}
                   onChange={handleInputChange}
-                  className="w-full max-w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                  className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-colors"
                   placeholder="Enter quiz title"
                   required
                 />
               </div>
 
+              {/* Questions */}
               <div className="space-y-6">
                 {newQuiz.questions.map((question, qIndex) => (
                   <div
                     key={qIndex}
-                    className="p-5 bg-gray-50 dark:bg-gray-700 rounded-lg"
+                    className="p-6 bg-slate-50 rounded-xl border border-slate-100"
                   >
                     <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-lg font-medium text-gray-900 dark:text-white">
+                      <h3 className="text-lg font-medium text-slate-800">
                         Question {qIndex + 1}
                       </h3>
                       <button
                         type="button"
                         onClick={() => removeQuestion(qIndex)}
-                        className="text-red-600 hover:text-red-700 transition"
+                        className="text-red-500 hover:text-red-600 text-sm font-medium transition-colors"
                       >
                         Remove
                       </button>
@@ -387,17 +396,14 @@ const QuizCreation = () => {
                           e.target.value
                         )
                       }
-                      className="w-full max-w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                      className="w-full px-4 py-2 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-colors"
                       placeholder="Enter question text"
                       required
                     />
 
                     <div className="space-y-3 mt-4">
                       {question.options.map((option, oIndex) => (
-                        <div
-                          key={oIndex}
-                          className="flex flex-col sm:flex-row items-start sm:items-center space-y-2 sm:space-y-0 sm:space-x-3"
-                        >
+                        <div key={oIndex} className="flex items-center gap-3">
                           <input
                             type="text"
                             value={option.text}
@@ -409,11 +415,11 @@ const QuizCreation = () => {
                                 e.target.value
                               )
                             }
-                            className="flex-1 max-w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+                            className="flex-1 px-4 py-2 rounded-lg border border-slate-200 bg-white focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-colors"
                             placeholder={`Option ${oIndex + 1}`}
                             required
                           />
-                          <label className="flex items-center space-x-2">
+                          <label className="flex items-center gap-2">
                             <input
                               type="checkbox"
                               checked={option.isCorrect}
@@ -425,8 +431,6 @@ const QuizCreation = () => {
                                   "isCorrect",
                                   isChecked
                                 );
-
-                                // Uncheck all other checkboxes in the same question
                                 if (isChecked) {
                                   question.options.forEach((_, idx) => {
                                     if (idx !== oIndex) {
@@ -440,9 +444,9 @@ const QuizCreation = () => {
                                   });
                                 }
                               }}
-                              className="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500 transition"
+                              className="w-4 h-4 rounded border-slate-300 text-slate-600 focus:ring-slate-500"
                             />
-                            <span className="text-sm text-gray-700 dark:text-gray-300">
+                            <span className="text-sm text-slate-600">
                               Correct
                             </span>
                           </label>
@@ -453,30 +457,32 @@ const QuizCreation = () => {
                 ))}
               </div>
 
-              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 mt-6">
+              {/* Action Buttons */}
+              <div className="flex gap-4">
                 <button
                   type="button"
                   onClick={addQuestion}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition w-full sm:w-auto"
+                  className="px-4 py-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-200 transition-colors flex-1"
                 >
                   Add Question
                 </button>
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition w-full sm:w-auto"
+                  className="px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors flex-1 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {loading ? "Creating..." : "Create Quiz"}
                 </button>
               </div>
 
+              {/* Error Message */}
               {error && (
-                <div className="mt-4 p-4 bg-red-50 dark:bg-red-900 text-red-600 dark:text-red-200 rounded-md">
+                <div className="p-4 bg-red-50 text-red-600 rounded-lg text-sm">
                   {error}
                 </div>
               )}
-            </form>
-          </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>

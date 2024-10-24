@@ -57,94 +57,139 @@ export default function Signup() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900 px-4 sm:px-0">
+    <div className="min-h-screen bg-slate-50 py-8 px-4">
       <Toaster position="top-center" reverseOrder={false} />
-      <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-xl p-6 sm:p-8">
-        <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-100 mb-6 sm:mb-8">
-          Join <span className="text-yellow-400">QuizMaster</span>
-        </h1>
-        <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-300"
-            >
-              Name
-            </label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              value={user.name}
-              onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
-              placeholder="Your Name"
-              required
-            />
+      <div className="max-w-2xl mx-auto">
+        {/* Header */}
+        <div className="bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto">
+            {/* Header with proper responsive margins */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between mb-8 sm:mb-12">
+              <div className="w-full sm:w-auto">
+                <h1 className="text-xl sm:text-2xl font-semibold text-slate-800">
+                  Join Quiz Master
+                </h1>
+                <p className="text-sm text-slate-600 mt-1">
+                  Make your mind like hunter
+                </p>
+              </div>
+            </div>
+
+            {/* Rest of your content */}
+            <div className="bg-white rounded-xl shadow-sm border border-yellow-400 overflow-hidden">
+              {/* ... rest of your form content ... */}
+            </div>
           </div>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-300"
-            >
-              Email Address
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              value={user.email}
-              onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
-              placeholder="you@example.com"
-              required
-            />
+        </div>
+
+        {/* <div className="bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto">
+            {/* Header with proper responsive margins */}
+        {/* <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between mb-8 sm:mb-12">
+        
           </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-300"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              value={user.password}
-              onChange={handleInputChange}
-              className="mt-1 block w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:border-yellow-400"
-              placeholder="••••••••"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full px-4 py-2 font-medium text-gray-900 bg-yellow-400 rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition duration-150 ease-in-out disabled:bg-gray-500 disabled:text-gray-300 disabled:cursor-not-allowed"
-          >
-            {loading ? "Creating..." : "Sign Up"}
-          </button>
-        </form>
-        {error && (
-          <p className="mt-4 text-center text-sm text-red-400">{error}</p>
-        )}
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-400">
-            Already have an account?{" "}
-            <Link
-              href="/login"
-              className="font-medium text-yellow-400 hover:text-yellow-300"
-            >
-              Log In
-            </Link>
-          </p>
-          <Link
-            href="/"
-            className="inline-block mt-2 text-yellow-400 text-xs px-3 py-1 bg-gray-700 rounded hover:bg-gray-600 transition duration-300"
-          >
-            Back to Home
-          </Link>
+        </div> */}
+
+        {/* Main Content */}
+        <div className="bg-white rounded-xl shadow-sm border border-yellow-400 overflow-hidden">
+          <form onSubmit={handleSubmit} className="p-6">
+            <div className="space-y-6">
+              {/* Name Input */}
+              <div>
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-slate-600 mb-2"
+                >
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={user.name}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-colors"
+                  placeholder="Your Name"
+                  required
+                />
+              </div>
+
+              {/* Email Input */}
+              <div>
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-slate-600 mb-2"
+                >
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={user.email}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-colors"
+                  placeholder="you@example.com"
+                  required
+                />
+              </div>
+
+              {/* Password Input */}
+              <div>
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-slate-600 mb-2"
+                >
+                  Password
+                </label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={user.password}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 rounded-lg border border-slate-200 focus:ring-2 focus:ring-slate-500 focus:border-transparent transition-colors"
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+
+              {/* Error Message */}
+              {error && (
+                <div className="p-4 bg-red-50 text-red-600 rounded-lg text-sm">
+                  {error}
+                </div>
+              )}
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading ? "Creating..." : "Sign Up"}
+              </button>
+
+              {/* Login Link */}
+              <div className="text-center space-y-2">
+                <p className="text-sm text-slate-600">
+                  Already have an account?{" "}
+                  <Link
+                    href="/login"
+                    className="font-medium text-slate-800 hover:text-slate-600 transition-colors"
+                  >
+                    Log In
+                  </Link>
+                </p>
+                <Link
+                  href="/"
+                  className="inline-block text-xs px-3 py-1 bg-slate-100 rounded-lg text-slate-600 hover:bg-slate-200 transition-colors"
+                >
+                  Back to Home
+                </Link>
+              </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>

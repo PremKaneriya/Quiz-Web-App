@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { FaSignOutAlt, FaArrowLeft } from "react-icons/fa";
+import { div, h1, p, span, button } from "framer-motion/client";
+import { Link } from "lucide-react";
 
 export default function Profile() {
   const router = useRouter();
@@ -61,56 +63,88 @@ export default function Profile() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-900 p-4">
+    <div className="min-h-screen bg-slate-50 py-8 px-4">
       <Toaster position="top-center" reverseOrder={false} />
-
-      <div className="w-full max-w-md bg-gray-800 rounded-lg shadow-xl p-6 sm:p-8 flex flex-col items-center">
-        <div className="flex flex-col items-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-100 mt-4">{user.name}</h1>
-          <p className="text-sm text-gray-400">{user.email}</p>
-          <p className="text-lg font-medium text-gray-300 mt-2">
-            Quizzes Created:{" "}
-            <span className="font-bold text-yellow-400">
-              {user.quizzesCreated}
-            </span>
-          </p>
-          <p className="text-lg font-medium text-gray-300 mt-2">
-            Total Score:{" "}
-            <span className="font-bold text-yellow-400">{user.totalScore}</span>
-          </p>
+      <div className="max-w-2xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-12">
+          <div>
+            <h1 className="text-2xl font-semibold text-slate-800">
+              {user.name}
+            </h1>
+            <p className="text-sm text-slate-600 mt-1">{user.email}</p>
+          </div>
         </div>
 
-        {error && (
-          <p className="mt-4 text-center text-sm text-red-400">{error}</p>
-        )}
+        {/* Main Content */}
+        <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
+          <div className="p-6">
+            <div className="space-y-6">
+              {/* Stats */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-slate-600">
+                    Quizzes Created
+                  </span>
+                  <span className="font-semibold text-slate-800">
+                    {user.quizzesCreated}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-slate-600">
+                    Total Score
+                  </span>
+                  <span className="font-semibold text-slate-800">
+                    {user.totalScore}
+                  </span>
+                </div>
+              </div>
 
-        <div className="text-center mb-4 w-full">
-          <button
-            onClick={handleBack}
-            className="flex items-center justify-center space-x-2 px-4 py-3 font-medium text-gray-900 bg-yellow-400 rounded-md hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-yellow-300 transition duration-150 ease-in-out w-full"
-          >
-            <FaArrowLeft />
-            <span>Back to Quiz</span>
-          </button>
-        </div>
+              {/* Error Message */}
+              {error && (
+                <div className="p-4 bg-red-50 text-red-600 rounded-lg text-sm">
+                  {error}
+                </div>
+              )}
 
-        <div className="text-center w-full">
-          {user.name ? (
-            <button
-              onClick={handleLogout}
-              className="flex items-center justify-center space-x-2 px-4 py-3 font-medium text-gray-100 bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 transition duration-150 ease-in-out w-full"
-            >
-              <FaSignOutAlt />
-              <span>Logout</span>
-            </button>
-          ) : (
-            <button
-              onClick={() => router.push("/login")}
-              className="flex items-center justify-center space-x-2 px-4 py-3 font-medium text-gray-100 bg-blue-600 rounded-md hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 transition duration-150 ease-in-out w-full"
-            >
-              <span>Login</span>
-            </button>
-          )}
+              {/* Back Button */}
+              <button
+                onClick={handleBack}
+                className="w-full px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors flex items-center justify-center space-x-2"
+              >
+                <FaArrowLeft className="text-sm" />
+                <span>Back to Quiz</span>
+              </button>
+
+              {/* Login/Logout Button */}
+              {user.name ? (
+                <button
+                  onClick={handleLogout}
+                  className="w-full px-4 py-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-200 transition-colors flex items-center justify-center space-x-2"
+                >
+                  <FaSignOutAlt className="text-sm" />
+                  <span>Logout</span>
+                </button>
+              ) : (
+                <button
+                  onClick={() => router.push("/login")}
+                  className="w-full px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors"
+                >
+                  <span>Login</span>
+                </button>
+              )}
+
+              {/* Optional: Additional Links */}
+              <div className="text-center">
+                <Link
+                  href="/"
+                  className="inline-block text-xs text-slate-600 hover:text-slate-800 transition-colors"
+                >
+                  Back to Home
+                </Link>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
