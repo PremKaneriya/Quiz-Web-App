@@ -582,19 +582,6 @@ const QuizManager: React.FC = () => {
             )}
           </div>
         </div>
-
-        {/* Footer */}
-        <footer className="bg-slate-800 text-slate-400 py-6 mt-12">
-          <div className="container mx-auto text-center">
-            <p className="text-lg font-semibold text-yellow-500">
-              Quiz Sprint™
-            </p>
-            <p className="text-sm mt-2">Developed by Prem Kaneriya</p>
-            <p className="text-xs mt-4 text-slate-500">
-              © {new Date().getFullYear()} Quiz Sprint. All rights reserved.
-            </p>
-          </div>
-        </footer>
       </div>
     </>
   );

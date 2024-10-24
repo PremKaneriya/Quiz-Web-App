@@ -63,7 +63,7 @@ const UserDetails = () => {
       case 0:
         return <Trophy className="w-5 h-5 text-yellow-500" />;
       case 1:
-        return <Medal className="w-5 h-5 text-slate-400" />;
+        return <Medal className="w-5 h-5 text-orange-400" />;
       case 2:
         return <Award className="w-5 h-5 text-amber-700" />;
       default:
@@ -76,7 +76,7 @@ const UserDetails = () => {
       case 0:
         return "bg-yellow-50 border-yellow-100";
       case 1:
-        return "bg-slate-50 border-slate-100";
+        return "bg-orange-50 border-slate-100";
       case 2:
         return "bg-amber-50 border-amber-100";
       default:

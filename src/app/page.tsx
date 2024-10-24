@@ -22,7 +22,7 @@ export default function Home() {
             </Link>
             <Link
               href="/login"
-              className="text-slate-700 bg-slate-100 hover:bg-slate-200 focus:ring-2 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-lg px-6 py-2 transition-colors duration-200 text-center"
+              className="text-slate-700 bg-slate-100 hover:bg-slate-200 focus:ring-2 focus:outline-none focus:ring-slate-300 font-medium rounded-lg text-lg px-6 py-2 transition-colors duration-200 text-center border-2 border-yellow-400"
             >
               Login
             </Link>
