@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { FaSignOutAlt, FaArrowLeft } from "react-icons/fa";
 import { Link } from "lucide-react";
+import { h1 } from "framer-motion/client";
 
 export default function Profile() {
   const router = useRouter();
@@ -81,7 +82,9 @@ export default function Profile() {
                 />
                 <div>
                   <h1 className="text-xl sm:text-2xl font-semibold text-slate-800">
-                    {user.name}
+                    {user && user.name
+                      ? `Oh, you're ${user.name}`
+                      : "I don't know you, login for that"}
                   </h1>
                   <p className="text-sm text-slate-600 mt-1">{user.email}</p>
                 </div>
