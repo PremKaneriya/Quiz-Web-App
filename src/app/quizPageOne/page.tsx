@@ -358,46 +358,48 @@ const QuizManager: React.FC = () => {
             <div className="flex justify-between h-16">
               {/* Logo */}
               <div className="flex items-center">
-                <Link href="/" className="flex items-center space-x-2">
-                  <h1 className="text-3xl font-bold">
-                    <span className="text-yellow-500">Quiz</span>
-                    <span className="text-slate-800">Master</span>
+                <Link href="/" className="flex items-center space-x-2 group">
+                  <h1 className="text-2xl font-semibold tracking-tight">
+                    <span className="text-yellow-400 group-hover:text-yellow-500 transition-colors duration-200">
+                      Quiz
+                    </span>
+                    <span className="text-slate-700 group-hover:text-slate-900 transition-colors duration-200">
+                      Master
+                    </span>
                   </h1>
                 </Link>
               </div>
 
               {/* Desktop Navigation */}
-              <div className="hidden md:flex items-center space-x-4">
+              <div className="hidden md:flex items-center space-x-6">
                 <Link
                   href="/profile"
-                  className="inline-flex items-center px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
+                  className="relative flex flex-col items-center group"
                 >
-                  <span className="mr-2">👤</span>
-                  <span>{user?.name || "Profile"}</span>
+                  <span className="text-xl">👤</span>
+                  <span className="absolute top-full mt-1 left-1/2 transform -translate-x-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-slate-800 text-white text-xs rounded py-1 px-2">
+                    {user?.name || "Profile"}
+                  </span>
                 </Link>
 
                 <Link
                   href="/createquiz"
-                  className="inline-flex items-center px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
+                  className="relative flex flex-col items-center group"
                 >
-                  <span className="mr-2">📝</span>
-                  <span>Create Quiz</span>
+                  <span className="text-xl">📝</span>
+                  <span className="absolute top-full mt-1 left-1/2 transform -translate-x-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-slate-800 text-white text-xs rounded py-1 px-2">
+                    Create Quiz
+                  </span>
                 </Link>
 
                 <Link
                   href="/totalUsers"
-                  className="inline-flex items-center px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
+                  className="relative flex flex-col items-center group"
                 >
-                  <span className="mr-2">🏆</span>
-                  <span>Score Board</span>
-                </Link>
-
-                <Link
-                  href="/"
-                  className="inline-flex items-center px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
-                >
-                  <span className="mr-2">🏠</span>
-                  <span>Home</span>
+                  <span className="text-xl">🏆</span>
+                  <span className="absolute top-full mt-1 left-1/2 transform -translate-x-1/2 opacity-0 transition-opacity duration-300 group-hover:opacity-100 bg-slate-800 text-white text-xs rounded py-1 px-2">
+                    Score Board
+                  </span>
                 </Link>
               </div>
 
@@ -433,7 +435,7 @@ const QuizManager: React.FC = () => {
             >
               <div className="flex flex-col p-4">
                 <div className="flex justify-between items-center mb-8">
-                  <span className="text-lg font-semibold text-slate-800">
+                  <span className="text-lg font-semibold text-slate-700">
                     Menu
                   </span>
                   <button
@@ -444,55 +446,49 @@ const QuizManager: React.FC = () => {
                   </button>
                 </div>
 
-                <div className="flex flex-col space-y-4">
+                {/*Mobile Menu*/}
+                <div className="flex flex-col space-y-3 p-4 bg-white rounded-lg shadow-md">
                   <Link
                     href="/profile"
-                    className="flex items-center px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
+                    className="flex items-center px-4 py-2 rounded-md text-slate-700 hover:bg-slate-100 transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
-                    <span className="mr-2">👤</span>
-                    <span>{user?.name || "Profile"}</span>
+                    <span className="mr-2 text-xl">👤</span>
+                    <span className="font-medium">
+                      {user?.name || "Profile"}
+                    </span>
                   </Link>
 
                   <Link
                     href="/createquiz"
-                    className="flex items-center px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
+                    className="flex items-center px-4 py-2 rounded-md text-slate-700 hover:bg-slate-100 transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
-                    <span className="mr-2">📝</span>
-                    <span>Create Quiz</span>
+                    <span className="mr-2 text-xl">📝</span>
+                    <span className="font-medium">Create Quiz</span>
                   </Link>
 
                   <Link
                     href="/totalUsers"
-                    className="flex items-center px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
+                    className="flex items-center px-4 py-2 rounded-md text-slate-700 hover:bg-slate-100 transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
-                    <span className="mr-2">🏆</span>
-                    <span>Score Board</span>
-                  </Link>
-
-                  <Link
-                    href="/"
-                    className="flex items-center px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
-                    onClick={() => setIsOpen(false)}
-                  >
-                    <span className="mr-2">🏠</span>
-                    <span>Home</span>
+                    <span className="mr-2 text-xl">🏆</span>
+                    <span className="font-medium">Score Board</span>
                   </Link>
 
                   {isTabPresent ? (
                     <button
                       onClick={handleLogout}
-                      className="w-full px-4 py-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-200 transition-colors flex items-center justify-center space-x-2"
+                      className="w-full px-4 py-2 bg-slate-100 text-slate-600 rounded-md hover:bg-slate-200 transition-colors flex items-center justify-center"
                     >
                       <FaSignOutAlt className="text-sm" />
-                      <span>Logout</span>
+                      <span className="ml-2">Logout</span>
                     </button>
                   ) : (
                     <button
                       onClick={() => router.push("/login")}
-                      className="w-full px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors flex items-center justify-center"
+                      className="w-full px-4 py-2 bg-slate-800 text-white rounded-md hover:bg-slate-700 transition-colors flex items-center justify-center"
                     >
                       <span>Login</span>
                     </button>
