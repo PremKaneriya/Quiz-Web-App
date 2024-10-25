@@ -339,8 +339,6 @@ const QuizManager: React.FC = () => {
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const v = localStorage.getItem("tab");
-
   return (
     <>
       <div className="min-h-screen bg-slate-50">
@@ -473,7 +471,7 @@ const QuizManager: React.FC = () => {
                     <span>Home</span>
                   </Link>
 
-                  {v ? (
+                  {localStorage.getItem("tab") ? (
                     <button
                       onClick={handleLogout}
                       className="w-full px-4 py-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-200 transition-colors flex items-center justify-center space-x-2"
