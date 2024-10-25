@@ -339,6 +339,16 @@ const QuizManager: React.FC = () => {
 
   const [isOpen, setIsOpen] = useState(false);
 
+  const [isTabPresent, setIsTabPresent] = useState(false);
+
+  useEffect(() => {
+    // Check for 'tab' in localStorage on the client side
+    if (typeof window !== "undefined") {
+      const tabValue = localStorage.getItem("tab");
+      setIsTabPresent(!!tabValue); // Update the state based on the presence of the tab
+    }
+  }, []);
+
   return (
     <>
       <div className="min-h-screen bg-slate-50">
@@ -471,7 +481,7 @@ const QuizManager: React.FC = () => {
                     <span>Home</span>
                   </Link>
 
-                  {localStorage.getItem("tab") ? (
+                  {isTabPresent ? (
                     <button
                       onClick={handleLogout}
                       className="w-full px-4 py-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-200 transition-colors flex items-center justify-center space-x-2"

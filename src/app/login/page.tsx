@@ -2,7 +2,7 @@
 "use client";
 
 // pages/login.tsx
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { type } from "os";
@@ -23,13 +23,6 @@ export default function Login() {
   const [user, setUser] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
-  const tab = useEffect(() => {
-    // Check if 'localStorage' is available in the browser
-    if (typeof window !== "undefined") {
-      localStorage.setItem("tab", "tab");
-    }
-  }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -54,7 +47,7 @@ export default function Login() {
         throw new Error(data.error || "Something went wrong");
       }
 
-      tab;
+      localStorage.setItem("tab", "tab");
 
       toast.success("User logged in successfully!");
       router.push("/quizPageOne");
