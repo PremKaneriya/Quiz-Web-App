@@ -47,6 +47,8 @@ export default function Login() {
         throw new Error(data.error || "Something went wrong");
       }
 
+      localStorage.setItem("tab", "tab");
+
       toast.success("User logged in successfully!");
       router.push("/quizPageOne");
     } catch (error: any) {

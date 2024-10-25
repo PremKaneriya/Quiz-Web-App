@@ -19,6 +19,7 @@ import {
   footer,
   strong,
   nav,
+  s,
 } from "framer-motion/client";
 import { useRouter } from "next/navigation";
 import { type } from "os";
@@ -29,6 +30,9 @@ import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { SkeletonLoader } from "../components/skeleton";
 import Link from "next/link";
 import { X, Menu } from "lucide-react";
+import { FaSignOutAlt } from "react-icons/fa";
+
+import toast, { Toaster } from "react-hot-toast";
 
 interface Option {
   text: string;
@@ -320,14 +324,23 @@ const QuizManager: React.FC = () => {
     }));
   };
 
-  const removeQuestion = (qIndex: any) => {
-    setNewQuiz((prev) => ({
-      ...prev,
-      questions: prev.questions.filter((_, index) => index !== qIndex),
-    }));
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      });
+      toast.success("Logged out successfully!");
+      router.push("/login");
+    } catch (error: any) {
+      toast.error("Failed to logout.");
+    }
   };
 
   const [isOpen, setIsOpen] = useState(false);
+
+  const v = localStorage.getItem("tab");
+
   return (
     <>
       <div className="min-h-screen bg-slate-50">
@@ -349,7 +362,7 @@ const QuizManager: React.FC = () => {
               <div className="hidden md:flex items-center space-x-4">
                 <Link
                   href="/profile"
-                  className="inline-flex items-center px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-700 transition-colors"
+                  className="inline-flex items-center px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
                 >
                   <span className="mr-2">👤</span>
                   <span>{user?.name || "Profile"}</span>
@@ -357,7 +370,7 @@ const QuizManager: React.FC = () => {
 
                 <Link
                   href="/createquiz"
-                  className="inline-flex items-center px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-600 transition-colors"
+                  className="inline-flex items-center px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
                 >
                   <span className="mr-2">📝</span>
                   <span>Create Quiz</span>
@@ -426,7 +439,7 @@ const QuizManager: React.FC = () => {
                 <div className="flex flex-col space-y-4">
                   <Link
                     href="/profile"
-                    className="flex items-center px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-700 transition-colors"
+                    className="flex items-center px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
                     <span className="mr-2">👤</span>
@@ -435,7 +448,7 @@ const QuizManager: React.FC = () => {
 
                   <Link
                     href="/createquiz"
-                    className="flex items-center px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-600 transition-colors"
+                    className="flex items-center px-4 py-2 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200 transition-colors"
                     onClick={() => setIsOpen(false)}
                   >
                     <span className="mr-2">📝</span>
@@ -459,6 +472,23 @@ const QuizManager: React.FC = () => {
                     <span className="mr-2">🏠</span>
                     <span>Home</span>
                   </Link>
+
+                  {v ? (
+                    <button
+                      onClick={handleLogout}
+                      className="w-full px-4 py-2 bg-slate-100 text-slate-600 rounded-lg hover:bg-slate-200 transition-colors flex items-center justify-center space-x-2"
+                    >
+                      <FaSignOutAlt className="text-sm" />
+                      <span>Logout</span>
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => router.push("/login")}
+                      className="w-full px-4 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 transition-colors flex items-center justify-center"
+                    >
+                      <span>Login</span>
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

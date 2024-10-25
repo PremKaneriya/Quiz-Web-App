@@ -1,10 +1,10 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 import { FaSignOutAlt, FaArrowLeft } from "react-icons/fa";
-import { div, h1, p, span, button } from "framer-motion/client";
 import { Link } from "lucide-react";
 
 export default function Profile() {
@@ -67,12 +67,31 @@ export default function Profile() {
       <Toaster position="top-center" reverseOrder={false} />
       <div className="max-w-2xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-12">
-          <div>
-            <h1 className="text-2xl font-semibold text-slate-800">
-              {user.name}
-            </h1>
-            <p className="text-sm text-slate-600 mt-1">{user.email}</p>
+        <div className="bg-slate-50 py-8 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-2xl mx-auto">
+            {/* Header with responsive margins and layout */}
+            <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between mb-8 sm:mb-12">
+              {/* User info and image */}
+              <div className="flex items-center space-x-4">
+                {/* Static image */}
+                <img
+                  src="https://cdn.dribbble.com/users/315465/screenshots/15748270/media/4cca4b90022715562c4459a8374e7b3c.png?resize=400x300&vertical=center"
+                  alt="User Avatar"
+                  className="w-16 h-16 rounded-full object-cover"
+                />
+                <div>
+                  <h1 className="text-xl sm:text-2xl font-semibold text-slate-800">
+                    {user.name}
+                  </h1>
+                  <p className="text-sm text-slate-600 mt-1">{user.email}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Additional content container with border and shadow */}
+            <div className="bg-white rounded-xl shadow-sm border border-yellow-400 overflow-hidden">
+              {/* ... additional content can be added here ... */}
+            </div>
           </div>
         </div>
 
