@@ -419,11 +419,10 @@ const QuizManager: React.FC = () => {
           <div
             className={`
             md:hidden fixed inset-0 z-50 bg-slate-800/50 backdrop-blur-sm transition-all duration-300
-            ${
-              isOpen
+            ${isOpen
                 ? "opacity-100 pointer-events-auto"
                 : "opacity-0 pointer-events-none"
-            }
+              }
           `}
           >
             <div
@@ -565,11 +564,10 @@ const QuizManager: React.FC = () => {
 
                         {feedback[`${quiz._id}-${qIndex}`] && (
                           <p
-                            className={`text-sm font-medium ${
-                              feedback[`${quiz._id}-${qIndex}`] === "Correct!"
+                            className={`text-sm font-medium ${feedback[`${quiz._id}-${qIndex}`] === "Correct!"
                                 ? "text-emerald-600"
                                 : "text-red-600"
-                            }`}
+                              }`}
                           >
                             {feedback[`${quiz._id}-${qIndex}`]}
                           </p>
@@ -607,6 +605,27 @@ const QuizManager: React.FC = () => {
                     <button
                       className="w-full text-gray-600 hover:text-gray-800 py-3 rounded-lg transition-colors duration-200"
                       onClick={handleCloseLoginPopup}
+                    >
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {popupVisible && (
+              <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm transition-all z-50">
+                <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-sm mx-4 transform transition-all">
+                  <h2 className="text-2xl font-light text-gray-800 mb-4 text-center">
+                    Welcome to Open Sources Game
+                  </h2>
+                  <p className="text-gray-600 text-center mb-8">
+                    Thank you for being a part of our community. Get ready to play!
+                  </p>
+                  <div className="space-y-3">
+                    <button
+                      className="w-full bg-black hover:bg-gray-800 text-white py-3 rounded-lg transition-colors duration-200"
+                      onClick={handleClosePopup} // Close the popup on click
                     >
                       Close
                     </button>
